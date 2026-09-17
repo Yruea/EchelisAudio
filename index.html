@@ -1,105 +1,21 @@
-<!DOCTYPE html>
+const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
+
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Echelis Audio</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header class="topbar">
-  <div class="wrap topbar-inner">
-    <a href="#" class="wordmark-small">Echelis</a>
-    <nav>
-      <a href="#products">Earphones</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="wrap hero-inner">
-    <div class="hero-text">
-      <h1>Tuned for the<br>detail others miss.</h1>
-      <p class="hero-sub">Echelis builds in-ear monitors for people who listen closely — session engineers, touring musicians, and anyone who wants to hear a mix the way it was made.</p>
-      <a href="#products" class="btn-primary">See the lineup</a>
-    </div>
-    <div class="hero-mark" aria-hidden="true">
-      <svg width="180" height="180" viewBox="0 0 180 180">
-        <circle class="ring r1" cx="90" cy="90" r="30"></circle>
-        <circle class="ring r2" cx="90" cy="90" r="30"></circle>
-        <circle class="ring r3" cx="90" cy="90" r="30"></circle>
-        <g class="bars">
-          <rect x="60" y="76" width="9" height="28" rx="3"></rect>
-          <rect x="76" y="58" width="9" height="64" rx="3"></rect>
-          <rect x="92" y="68" width="9" height="44" rx="3"></rect>
-          <rect x="108" y="54" width="9" height="72" rx="3"></rect>
-        </g>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<section class="specs" id="about">
-  <div class="wrap specs-inner">
-    <div class="spec">
-      <span class="spec-num">10mm</span>
-      <span class="spec-label">Dynamic driver</span>
-    </div>
-    <div class="spec">
-      <span class="spec-num">2</span>
-      <span class="spec-label">Balanced armatures</span>
-    </div>
-    <div class="spec">
-      <span class="spec-num">32Ω</span>
-      <span class="spec-label">Impedance</span>
-    </div>
-    <div class="spec">
-      <span class="spec-num">5Hz–40kHz</span>
-      <span class="spec-label">Frequency response</span>
-    </div>
-  </div>
-</section>
-
-<section class="lineup" id="products">
-  <div class="wrap">
-    <h2>The lineup</h2>
-    <div class="product-grid">
-      <article class="product">
-        <div class="product-image" style="background:#20262f;"></div>
-        <h3>Echelis One</h3>
-        <p>A single dynamic driver, tuned flat. Built for engineers who need an honest reference.</p>
-        <span class="price">$179</span>
-      </article>
-      <article class="product">
-        <div class="product-image" style="background:#262c36;"></div>
-        <h3>Echelis Hybrid</h3>
-        <p>Dynamic driver plus two balanced armatures. Extended low end, controlled top.</p>
-        <span class="price">$329</span>
-      </article>
-      <article class="product">
-        <div class="product-image" style="background:#2b323d;"></div>
-        <h3>Echelis Stage</h3>
-        <p>Built for live monitoring. Reinforced cable, deep isolation, high output.</p>
-        <span class="price">$249</span>
-      </article>
-    </div>
-  </div>
-</section>
-
-<footer id="contact">
-  <div class="wrap footer-inner">
-    <div>
-      <div class="wordmark-small">Echelis</div>
-      <p class="footer-tag">Hear beyond.</p>
-    </div>
-    <div class="footer-links">
-      <a href="mailto:hello@echelisaudio.com">hello@echelisaudio.com</a>
-    </div>
-  </div>
-</footer>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://db.com/logo_v2.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0A0A0B" />
+    <meta name="description" content="EchelisAudio — precision-built in-ear monitors for a more intimate relationship with sound. Echelis One is in development. Join the early access list." />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Michroma&display=swap" rel="stylesheet" />
+    <title>EchelisAudio — Innovating What You Hear</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
