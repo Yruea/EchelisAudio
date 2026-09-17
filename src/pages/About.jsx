@@ -40,7 +40,7 @@ export default function About() {
           <Reveal delay={0.1}>
             <div>
               <p className="font-mono-tech text-xs uppercase tracking-widest text-primary">Our story</p>
-              <h2 className="mt-4 font-heading text-2xl font-600 tracking-tight md:text-3xl">It started with a frustration.</h2>
+              <h2 className="mt-4 font-heading text-2xl font-600 tracking-tight md:text-3xl">It Started With A Concert.</h2>
               <div className="mt-5 space-y-4 text-muted-foreground leading-relaxed">
                 <p>
                   We are listeners first. We had spent years chasing monitors that impressed in the first minute and fatigued in the fiftieth —
