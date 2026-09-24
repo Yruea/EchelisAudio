@@ -1,0 +1,21 @@
+{
+  "name": "WaitlistEntry",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "source": {
+      "type": "string",
+      "description": "Where the signup originated (hero, footer, product, contact)"
+    },
+    "product_slug": {
+      "type": "string",
+      "description": "Optional product the user expressed interest in"
+    }
+  },
+  "required": [
+    "email"
+  ]
+}
