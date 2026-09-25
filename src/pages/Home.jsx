@@ -38,7 +38,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={0.14}>
             <p className="mt-5 max-w-xl text-base text-muted-foreground leading-relaxed md:text-lg">
-              Precision-built in-ear monitors for a more intimate relationship with sound. Echelis One is in development.
+              Precision-built in-ear monitors for a more intimate relationship with sound. Angosta One is in development.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
@@ -48,7 +48,7 @@ export default function Home() {
           </Reveal>
           <Reveal delay={0.26}>
             <Link
-              to="/product/echelis-one-founders-edition"
+              to="/product/Angosta One"
               className="mt-6 inline-flex items-center gap-2 font-mono-tech text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary"
             >
               Explore the concept <ArrowRight className="h-3.5 w-3.5" />
