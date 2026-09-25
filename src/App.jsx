@@ -27,6 +27,7 @@ import Privacy from '@/pages/Privacy';
 import Terms from '@/pages/Terms';
 import Accessibility from '@/pages/Accessibility';
 import PageNotFound from '@/pages/PageNotFound';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -91,6 +92,7 @@ function App() {
           <AuthenticatedApp />
         </Router>
         <Toaster />
+        <SpeedInsights />
       </QueryClientProvider>
     </AuthProvider>
   )
