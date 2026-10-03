@@ -7,7 +7,7 @@ const columns = [
     title: 'Shop',
     links: [
       { label: 'All Products', to: '/shop' },
-      { label: 'Echelis One', to: '/product/echelis-one-founders-edition' },
+      { label: 'Angosta One', to: '/product/angosta-one-founders-edition' },
       { label: 'Cables', to: '/shop' },
       { label: 'Ear Tips', to: '/shop' },
       { label: 'Accessories', to: '/shop' },

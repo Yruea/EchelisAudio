@@ -20,8 +20,8 @@ export const categories = [
 
 export const products = [
   {
-    slug: 'echelis-one-founders-edition',
-    name: 'Echelis One',
+    slug: 'angosta-one-founders-edition',
+    name: 'Angosta One',
     edition: 'Founders Edition',
     status: 'in-development',
     statusLabel: 'In Development',
@@ -32,7 +32,7 @@ export const products = [
     gallery: [IMAGES.productMain, IMAGES.heroIem, IMAGES.engineeringMacro, IMAGES.materials],
     reservedPct: 84,
     tuningPhilosophy:
-      'We are tuning Echelis One toward emotional honesty rather than spectacle. The goal is a signature that feels open and unforced — articulate in the mids, controlled and textured in the bass, and extended without fatigue up top. Every voicing decision is being validated by ear, not by graph alone.',
+      'We are tuning Angosta One toward emotional honesty rather than spectacle. The goal is a signature that feels open and unforced — articulate in the mids, controlled and textured in the bass, and extended without fatigue up top. Every voicing decision is being validated by ear, not by graph alone.',
     shellDesign:
       'A comfort-first shell sculpted from ear impressions and refined through iterative 3D printing. The body is sized to sit flush within the concha, distributing pressure evenly so the monitor disappears during long sessions. Materials under evaluation include CNC-machined titanium and translucent resin.',
     cable:
@@ -54,11 +54,11 @@ export const products = [
       { label: 'Ear tips', value: 'Silicone + foam options included', tentative: false },
     ],
     story:
-      'Echelis One began as a frustration with monitors that impress for five minutes and fatigue for fifty. We wanted something we could live inside of — honest, comfortable, and built with the patience of people who listen for a living. The Founders Edition is our first attempt, refined in the open with the people who care enough to follow along before it exists.',
+      'Angosta One began as a frustration with monitors that impress for five minutes and fatigue for fifty. We wanted something we could live inside of — honest, comfortable, and built with the patience of people who listen for a living. The Founders Edition is our first attempt, refined in the open with the people who care enough to follow along before it exists.',
     fitGuidance:
       'A proper seal is everything. We are designing the shell to accommodate a range of ear geometries, and the final package will include multiple ear tip sizes and materials. For the deepest, most consistent bass and best isolation, choose the largest tip that fits comfortably and creates a gentle seal without pressure.',
     whatsIncluded: [
-      'Echelis One monitors (left + right)',
+      'Angosta One monitors (left + right)',
       'Detachable braided cable',
       'Ear tip kit (multiple sizes / materials)',
       'Protective carry case',
@@ -67,7 +67,7 @@ export const products = [
     ],
     faqs: [
       {
-        q: 'When will Echelis One be available?',
+        q: 'When will Angosta One be available?',
         a: 'We are still in active development. Joining the early access list is the best way to hear about availability first — we will not open orders until we are confident in the product.',
       },
       {
@@ -208,8 +208,8 @@ export const journalPosts = [
 
 export const faqs = [
   {
-    q: 'Is Echelis One available to buy right now?',
-    a: 'No. Echelis One is in active development. You can join the early access list to be notified before public availability, and to help shape the final product.',
+    q: 'Is Angosta One available to buy right now?',
+    a: 'No. Angosta One is in active development. You can join the early access list to be notified before public availability, and to help shape the final product.',
   },
   {
     q: 'What does joining the early access list get me?',
@@ -220,7 +220,7 @@ export const faqs = [
     a: 'No. Any specification marked "TBC" or "subject to refinement" is still being validated through prototyping. We will publish confirmed specifications as they are locked.',
   },
   {
-    q: 'How much will Echelis One cost?',
+    q: 'How much will Angosta One cost?',
     a: 'Pricing is not finalized. We will share pricing with the early access list before public launch.',
   },
   {

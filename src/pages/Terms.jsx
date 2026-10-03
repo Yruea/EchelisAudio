@@ -13,7 +13,7 @@ export default function Terms() {
         <p>You may browse, join the early access list, and contact us. We ask that you use the site lawfully and do not misuse any forms or communication channels.</p>
       </LegalSection>
       <LegalSection heading="Conceptual content">
-        <p>While Echelis One is in development, imagery is concept render and specifications may change. Nothing on this site constitutes a binding offer until orders officially open.</p>
+        <p>While Angosta One is in development, imagery is concept render and specifications may change. Nothing on this site constitutes a binding offer until orders officially open.</p>
       </LegalSection>
       <LegalSection heading="Early access list">
         <p>Joining the early access list does not create an obligation to purchase, nor a guarantee of availability. It grants you early visibility and priority access as described.</p>

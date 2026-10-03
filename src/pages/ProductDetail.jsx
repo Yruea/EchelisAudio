@@ -177,7 +177,7 @@ export default function ProductDetail() {
         <div className="relative mx-auto max-w-7xl px-4 grid gap-12 md:grid-cols-2">
           <Reveal>
             <p className="font-mono-tech text-xs uppercase tracking-widest text-primary">Product Story</p>
-            <h2 className="mt-4 font-heading text-2xl font-600 tracking-tight md:text-3xl">Why Echelis One exists.</h2>
+            <h2 className="mt-4 font-heading text-2xl font-600 tracking-tight md:text-3xl">Why Angosta One exists.</h2>
             <p className="mt-5 text-muted-foreground leading-relaxed">{product.story}</p>
           </Reveal>
           <Reveal delay={0.1}>
@@ -269,7 +269,7 @@ export default function ProductDetail() {
             <p className="font-mono-tech text-xs uppercase tracking-widest text-primary">Reviews</p>
             <h3 className="mt-4 font-heading text-xl font-600 tracking-tight">No reviews yet — the product isn't out.</h3>
             <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-              Reviews will appear here once Echelis One reaches listeners. Join the early access list to be among the first.
+              Reviews will appear here once Angosta One reaches listeners. Join the early access list to be among the first.
             </p>
           </div>
         </div>

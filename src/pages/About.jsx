@@ -143,7 +143,7 @@ export default function About() {
             </p>
             <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
               <Link to="/shop" className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
-                Explore Echelis One <ArrowRight className="h-4 w-4" />
+                Explore Angosta One <ArrowRight className="h-4 w-4" />
               </Link>
               <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-sm border border-border px-6 py-3.5 text-sm font-medium text-foreground hover:border-primary">
                 Get in touch

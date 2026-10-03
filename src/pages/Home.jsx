@@ -16,7 +16,7 @@ export default function Home() {
         <div className="absolute inset-0">
           <Image
             src={IMAGES.heroIem}
-            alt="Echelis One — concept render"
+            alt="Angosta One — concept render"
             fittingType="fill"
             className="h-full w-full"
           />

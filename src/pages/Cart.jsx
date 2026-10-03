@@ -19,13 +19,13 @@ export default function Cart() {
         </div>
         <h1 className="mt-6 font-heading text-2xl font-600 tracking-tight">Your cart is empty.</h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Echelis One is still in development. When it launches, you will find it here. Until then, join the early access list.
+          Angosta One is still in development. When it launches, you will find it here. Until then, join the early access list.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link to="/shop" className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
             View the concept <ArrowRight className="h-4 w-4" />
           </Link>
-          <Link to="/product/echelis-one-founders-edition" className="inline-flex items-center justify-center gap-2 rounded-sm border border-border px-6 py-3 text-sm font-medium text-foreground hover:border-primary">
+          <Link to="/product/angosta-one-founders-edition" className="inline-flex items-center justify-center gap-2 rounded-sm border border-border px-6 py-3 text-sm font-medium text-foreground hover:border-primary">
             Join the waitlist
           </Link>
         </div>
