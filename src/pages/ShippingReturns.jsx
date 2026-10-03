@@ -31,7 +31,7 @@ export default function ShippingReturns() {
       </LegalSection>
       <LegalSection heading="Note">
         <p>
-          Echelis One is still in development. Shipping and return policies are subject to refinement and will be finalized before pre-orders begin.
+          Angosta One is still in development. Shipping and return policies are subject to refinement and will be finalized before pre-orders begin.
         </p>
       </LegalSection>
     </LegalLayout>

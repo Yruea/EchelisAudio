@@ -11,7 +11,7 @@ export default function AnnouncementBar() {
         <div className="flex items-center justify-center gap-3 py-2 text-center">
           <span className="hidden sm:inline h-1.5 w-1.5 rounded-full bg-cyan animate-pulse-soft" />
           <p className="font-mono-tech text-[11px] sm:text-xs tracking-wide">
-            Echelis One is in development — join the early access list.
+            Angosta One is in development — join the early access list.
           </p>
           <Link
             to="/shop"

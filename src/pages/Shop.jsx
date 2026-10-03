@@ -20,7 +20,7 @@ export default function Shop() {
       <PageHero
         eyebrow="Shop"
         title="Concept catalog."
-        description="Echelis One is still in development. Browse the concept, join the early access list, and help shape what ships."
+        description="Angosta One is still in development. Browse the concept, join the early access list, and help shape what ships."
       />
 
       <section className="pb-20 md:pb-28">

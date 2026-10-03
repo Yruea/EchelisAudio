@@ -33,7 +33,7 @@ export default function Checkout() {
         <p className="font-mono-tech text-xs uppercase tracking-widest text-primary">Checkout</p>
         <h1 className="mt-4 font-heading text-3xl font-700 tracking-tight">Checkout is a preview.</h1>
         <p className="mt-4 text-muted-foreground leading-relaxed">
-          Echelis One is still in development. Real checkout activates when pre-orders open. Join the early access list to be notified first.
+          Angosta One is still in development. Real checkout activates when pre-orders open. Join the early access list to be notified first.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link to="/" className="inline-flex items-center justify-center gap-2 rounded-sm bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90">
