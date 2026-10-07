@@ -16,7 +16,7 @@ export default function Home() {
         <div className="absolute inset-0">
           <Image
             src={IMAGES.heroIem}
-            alt="Echelis One — concept render"
+            alt="Angosta One — concept render"
             fittingType="fill"
             className="h-full w-full"
           />
@@ -86,7 +86,7 @@ export default function Home() {
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
             <Reveal>
               <p className="font-mono-tech text-xs uppercase tracking-widest text-primary">In development</p>
-              <h2 className="mt-4 font-heading text-3xl font-600 tracking-tight md:text-4xl">Echelis One</h2>
+              <h2 className="mt-4 font-heading text-3xl font-600 tracking-tight md:text-4xl">Angosta One</h2>
               <p className="mt-3 max-w-xl text-muted-foreground">
                 Our first monitor — tuned for honesty, shaped for comfort, shared in public before it ships.
               </p>
