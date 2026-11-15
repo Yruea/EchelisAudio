@@ -22,7 +22,9 @@ npm run preview  # serve dist/
 | `src/styles/global.css` | Design tokens and base styles |
 | `src/scripts/` | Scroll controller and the lazy-loaded 3D stage |
 | `public/` | Fonts, favicons, Open Graph image |
-| `docs/` | Audit, creative direction, brand files, placeholders |
+| `tools/3d/` | Blender script that builds the concept 3D model |
+| `tools/fusion/` | Fusion script that exports the real CAD for the site (untested) |
+| `docs/` | Audit, creative direction, brand files, placeholders, launch status |
 
 ## Forms
 
