@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import Stage from '../components/Stage.astro';
+import SpecSheet from '../components/SpecSheet.astro';
+import EarlyAccess from '../components/EarlyAccess.astro';
+import { beats, site, team, product } from '../data/site';
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  category: product.type,
+  description: `${product.name} is a hybrid in-ear monitor in development at Echelis Audio. Not yet available to order.`,
+  brand: { '@type': 'Brand', name: site.name },
+  url: `${site.url}/${product.slug}`,
+};
+---
+
+<Base title={site.name} stage schema={[productSchema]}>
+  <Stage />
+
+  <section class="section" id="spec">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">02 — Specification</p>
+        <h2 class="h2">Not final. Not hidden.</h2>
+        <p class="lead">Rows fill in as we measure. Until then they say so.</p>
+      </div>
+      <SpecSheet />
+      <p class="more"><a class="label label--text" href="/angostura-uno">Full product page →</a></p>
+    </div>
+  </section>
+
+  <section class="section" id="why">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">03 — Why Echelis</p>
+        <h2 class="h2">Three rules.</h2>
+      </div>
+      <ol class="beats">
+        {
+          beats.map((beat, i) => (
+            <li class="beat">
+              <p class="label">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="h3">{beat.title}</h3>
+              <p>{beat.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="team">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">04 — Team</p>
+        <h2 class="h2">Two people.</h2>
+        <p class="lead">Echelis Audio was founded in {site.founded}. The Angostura Uno is our first product.</p>
+      </div>
+      <ul class="roster">
+        {
+          team.map((member, i) => (
+            <li class="label">
+              <span class="label--text">T-{String(i + 1).padStart(2, '0')}</span> {member.name ?? 'Name to come'}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="more"><a class="label label--text" href="/about">About Echelis →</a></p>
+    </div>
+  </section>
+
+  <EarlyAccess index="05" source="home" />
+</Base>
+
+<style>
+  .more {
+    margin-top: var(--space-6);
+  }
+  .more a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+  }
+  .beats {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+  .beat {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding-top: var(--space-4);
+    border-top: var(--hairline) solid var(--line);
+  }
+  .beat p:last-child {
+    color: var(--muted);
+    max-width: var(--measure-narrow);
+  }
+  .roster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    border-top: var(--hairline) solid var(--line);
+  }
+  .roster li {
+    padding-block: var(--space-4);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+</style>

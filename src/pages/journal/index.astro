@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+
+const entries = (await getCollection('journal', (e) => !e.data.draft)).sort((a, b) => b.data.log - a.data.log);
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<Base title="Journal" description="The Echelis build log: lab notes on what we tried, what failed and what changed while building the Angostura Uno.">
+  <PageHead label="Build log" title="Journal" lead="Lab notes. What we tried, what failed, what changed." />
+  <section class="section">
+    <div class="wrap">
+      <ol class="log" reversed>
+        {
+          entries.map((entry) => (
+            <li>
+              <a class="log__row" href={`/journal/${entry.id}`}>
+                <span class="label">
+                  Log {String(entry.data.log).padStart(3, '0')} · <time datetime={fmt(entry.data.date)}>{fmt(entry.data.date)}</time> · {entry.data.tag}
+                </span>
+                <span class="h3">{entry.data.title}</span>
+                <span class="log__summary">{entry.data.summary}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .log {
+    border-top: var(--hairline) solid var(--line);
+  }
+  .log__row {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-5);
+    border-bottom: var(--hairline) solid var(--line);
+    text-decoration: none;
+  }
+  .log__row:hover .h3 {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: var(--hairline);
+    text-underline-offset: var(--space-1);
+  }
+  .log__summary {
+    color: var(--muted);
+    max-width: var(--measure);
+  }
+</style>

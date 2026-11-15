@@ -1,0 +1,26 @@
+---
+import { specs, OPEN_VALUE } from '../data/site';
+---
+
+<dl class="rows specs">
+  {
+    specs.map((spec) => (
+      <div class="row">
+        <dt class="label">{spec.label}</dt>
+        <dd class:list={['label', 'label--text', { 'is-open': spec.value === null }]} data-placeholder={spec.placeholder}>
+          {spec.value ?? OPEN_VALUE}
+        </dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  @media (min-width: 60rem) {
+    .specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-8);
+    }
+  }
+</style>

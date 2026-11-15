@@ -1,36 +1,26 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 # AGENTS.md
 
-## Project Context
+## Project
 
-This is a Base44 app repository. Treat it as user-owned application code, keep changes focused on the user's request, and preserve existing project conventions.
+The Echelis Audio website: a static Astro site deployed on Vercel. See `README.md` for setup and `docs/` for the audit, creative direction and placeholders.
 
-Start with `README.md` for local setup, environment variables, and publish workflow.
+## Rules
 
-## Base44 References
+- **Never invent product specs** (driver configuration, frequency response, impedance, sensitivity, price, ship dates). Unknown values stay `null` in `src/data/site.ts` with a `[[SPEC: ...]]` placeholder id. List new placeholders in `docs/PLACEHOLDERS.md`.
+- Never show stock, reservation or signup numbers unless they come from a real source.
+- Product name is **Angostura Uno**. Brand in running text is "Echelis" or "Echelis Audio"; the wordmark is all caps.
+- All styling goes through the design tokens in `src/styles/global.css`. No hard-coded colours, sizes or durations in components.
+- The accent colour covers at most 5% of any screen. The three-colour gradient is used only on the frequency line.
+- Pages must be readable with JavaScript disabled, and motion must respect `prefers-reduced-motion`.
 
-- CLI overview: https://docs.db.com/developers/references/cli/get-started/overview.md
-- Agent skills: https://docs.db.com/developers/backend/overview/skills.md
+## Key files
 
-If your agent supports Agent Skills, install or update Base44 skills before Base44-specific work:
+- `src/data/site.ts`: product facts, specs, callouts, FAQ, team.
+- `src/styles/global.css`: design tokens and base styles.
+- `src/components/Stage.astro`, `src/scripts/stage-scroll.ts`, `src/scripts/stage-3d.ts`: hero and exploded-view sequence.
+- `src/content/journal/`: journal entries (Markdown).
+- `vercel.json`: redirects from the old site's URLs.
 
-```bash
-npx skills add base44/skills
-```
+## Checks
 
-## Key Files
-
-- `src/`: frontend application source.
-- `src/api/base44Client.js`: frontend Base44 SDK client.
-- `vite.config.js`: Vite config and Base44 Vite plugin setup.
-- `.env.local`: local-only environment values; never commit secrets.
-
-## Working Notes
-
-- Use `base44 dev` as the default local development command when you need the local Base44 backend. It can run the backend and frontend together.
-- When docs or code mention the frontend being started automatically, that usually means the Base44 project config includes `site.serveCommand`, for example `"serveCommand": "npm run dev"` in `base44/config.jsonc`.
-- Use `npm run dev` only for frontend-only work against the hosted Base44 backend.
-- Prefer the existing Base44 CLI workflow over adding new npm scripts for Base44-specific tasks.
-- Reuse the existing SDK client and Vite plugin patterns before adding new Base44 integration paths.
-- Run the relevant checks from `package.json` before finishing code changes.
+Run `npm run check` and `npm run build` before finishing a change.

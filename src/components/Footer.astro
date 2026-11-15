@@ -1,0 +1,58 @@
+---
+import Wordmark from './Wordmark.astro';
+import FreqLine from './FreqLine.astro';
+import { nav, site } from '../data/site';
+---
+
+<footer class="footer">
+  <FreqLine id="footer" />
+  <div class="wrap footer__in">
+    <div class="footer__brand">
+      <Wordmark class="footer__mark" title="Echelis" />
+      <p class="label">Audio · Founded {site.founded}</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="footer__links">
+        {nav.map((item) => <li><a class="label label--text" href={item.href}>{item.label}</a></li>)}
+        <li><a class="label label--text" href="/privacy">Privacy</a></li>
+        <li><a class="label label--text" href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+    </nav>
+    <p class="label label--s">© 2026 Echelis Audio</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: var(--hairline) solid var(--line);
+    padding-bottom: var(--space-7);
+  }
+  .footer__in {
+    display: grid;
+    gap: var(--space-6);
+    padding-top: var(--space-6);
+  }
+  .footer__brand {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .footer__brand :global(.footer__mark) {
+    height: var(--space-5);
+    aspect-ratio: 4604 / 742;
+  }
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+  }
+  .footer__links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    text-decoration: none;
+  }
+  .footer__links a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found" noindex>
+  <section class="wrap missing">
+    <p class="label">Error 404</p>
+    <h1 class="h2">Nothing at this address.</h1>
+    <p class="lead">The page may have moved when we rebuilt the site.</p>
+    <p><a class="btn" href="/">Back to the start <span class="btn__arrow" aria-hidden="true">→</span></a></p>
+  </section>
+</Base>
+
+<style>
+  .missing {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+    padding-block: var(--space-9);
+  }
+</style>

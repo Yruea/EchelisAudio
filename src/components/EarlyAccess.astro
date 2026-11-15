@@ -1,0 +1,19 @@
+---
+import SignupForm from './SignupForm.astro';
+interface Props {
+  index: string;
+  source: string;
+}
+const { index, source } = Astro.props;
+---
+
+<section class="section" id="early-access">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="label">{index} — Early access</p>
+      <h2 class="h2">Follow the build.</h2>
+      <p class="lead">One email when something real happens. First notice when there is something to order.</p>
+    </div>
+    <SignupForm source={source} />
+  </div>
+</section>

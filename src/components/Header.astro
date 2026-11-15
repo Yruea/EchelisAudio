@@ -1,0 +1,94 @@
+---
+import Wordmark from './Wordmark.astro';
+import { nav } from '../data/site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="header">
+  <div class="wrap header__in">
+    <a class="header__logo" href="/" aria-label="Echelis Audio, home">
+      <Wordmark class="header__mark" title="Echelis" />
+    </a>
+    <nav class="header__nav" aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a class="label label--text" href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="header__cta label label--text" href="/#early-access">Join early access</a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+  .header__in {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    min-height: var(--header-h);
+  }
+  .header__logo {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    margin-right: auto;
+  }
+  .header__logo :global(.header__mark) {
+    height: var(--space-4);
+    aspect-ratio: 4604 / 742;
+  }
+  .header__nav ul {
+    display: flex;
+    gap: var(--space-5);
+  }
+  .header__nav a,
+  .header__cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-min);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .header__nav a:hover,
+  .header__nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: var(--space-2);
+  }
+  .header__cta {
+    padding-inline: var(--space-4);
+    border: var(--hairline) solid var(--line-strong);
+    border-radius: var(--radius);
+  }
+  .header__cta:hover {
+    border-color: var(--accent);
+  }
+  @media (max-width: 47.99rem) {
+    .header__in {
+      flex-wrap: wrap;
+      row-gap: 0;
+      padding-block: var(--space-2);
+    }
+    .header__nav {
+      order: 3;
+      width: 100%;
+    }
+    .header__nav ul {
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+  }
+</style>

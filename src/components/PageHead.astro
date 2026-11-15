@@ -1,0 +1,29 @@
+---
+interface Props {
+  label: string;
+  title: string;
+  lead?: string;
+}
+const { label, title, lead } = Astro.props;
+---
+
+<section class="pagehead ruled">
+  <div class="wrap pagehead__in">
+    <p class="label">{label}</p>
+    <h1 class="h2 pagehead__title">{title}</h1>
+    {lead && <p class="lead">{lead}</p>}
+  </div>
+</section>
+
+<style>
+  .pagehead__in {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-9) var(--space-8);
+  }
+  .pagehead__title {
+    font-size: clamp(2.75rem, 9vw, 8rem);
+    letter-spacing: var(--track-display);
+    line-height: var(--lh-display);
+  }
+</style>
