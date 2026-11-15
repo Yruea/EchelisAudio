@@ -16,12 +16,10 @@ Everything below is unknown or draft. Nothing here was invented as fact.
 
 ## Copy
 
-- `[[COPY: team roles]]` Both founders are listed as "Co-founder". Confirm or supply titles.
 - `[[COPY: why]]` The three "Why Echelis" beats are drafts.
 - `[[COPY: callouts]]` The five callout lines and design notes are drafts.
 - `[[COPY: faq]]` The five FAQ answers are drafts.
 - `[[COPY: about]]` The mission text on `/about` is a draft.
-- `[[COPY: journal 002–004]]` Rewrites of the three old posts. They state intentions, not results. Confirm each "Decided" line is true.
 - `[[COPY: privacy]]` The privacy page is a plain-language draft and has not had legal review.
 
 ## Assets

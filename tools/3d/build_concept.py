@@ -124,8 +124,9 @@ def align_z_to(ob, direction):
 
 # ---------------------------------------------------------------- outline
 def outline_r(t):
-    """Radius of the shell outline at angle t: an asymmetric rounded form."""
-    return 9.2 + 1.5 * math.cos(t - 0.6) + 0.9 * math.cos(2 * t + 0.4) + 0.35 * math.cos(3 * t - 1.0)
+    """Radius of the shell outline at angle t: a rounded triangle, as on
+    machined-metal universal monitors."""
+    return 9.1 + 1.2 * math.cos(t - 0.6) + 0.45 * math.cos(2 * t + 0.4) + 1.05 * math.cos(3 * t - 0.9)
 
 
 def outline_pt(t, scale=1.0):
@@ -134,14 +135,34 @@ def outline_pt(t, scale=1.0):
 
 
 DEPTH = 10.5  # shell depth below the faceplate plane
+BAND = 2.6  # straight machined wall under the faceplate
+CHAMFER = 0.7  # 45 degree break between the wall and the body
+BODY = 0.925  # outline scale where the body starts, after the chamfer
 LEAN = Vector((-3.2, -1.6, 0))  # how far the deepest point drifts toward the nozzle
 NOZZLE_DIR = Vector((-0.5, -0.24, -0.83)).normalized()
 
 
 def shell_point(t, d):
-    """Point on the shell surface: angle t, depth fraction d in 0..1."""
-    s = (1 - d**2.6) ** 0.5  # dome profile
-    return outline_pt(t, s) + LEAN * (d**1.5) + Vector((0, 0, -DEPTH * d))
+    """Point on the shell body: angle t, depth fraction d in 0..1, measured
+    from the bottom of the chamfer to the deepest point."""
+    s = BODY * (1 - d**2.4) ** 0.5  # dome profile
+    top = BAND + CHAMFER
+    return outline_pt(t, s) + LEAN * (d**1.5) + Vector((0, 0, -top - (DEPTH - top) * d))
+
+
+def outline_frame(t, z):
+    """A local frame on the straight wall: x along the wall, y toward the
+    faceplate, z pointing out of the shell."""
+    eps = 1e-3
+    tangent = (outline_pt(t + eps) - outline_pt(t - eps)).normalized()
+    up = Vector((0, 0, 1))
+    normal = tangent.cross(up).normalized()
+    origin = outline_pt(t) + Vector((0, 0, z))
+    if normal.dot(origin.xy.to_3d()) < 0:
+        normal, tangent = -normal, -tangent
+    m = Matrix((tangent, up, normal)).transposed().to_4x4()
+    m.translation = origin
+    return m
 
 
 def build():
@@ -149,9 +170,10 @@ def build():
     scene = bpy.context.scene
 
     M = {
-        "resin": material("resin", hexrgb("#3b3a37"), 0.0, 0.18, coat=1.0),
-        "plate": material("plate", hexrgb("#bdbab1"), 1.0, 0.38),
-        "mark": material("mark", hexrgb("#1c1c1a"), 0.6, 0.7),
+        # "resin" keeps its name for the web code; the concept shell is anodised metal
+        "resin": material("resin", hexrgb("#4a4945"), 1.0, 0.46),
+        "plate": material("plate", hexrgb("#5a5852"), 1.0, 0.4),
+        "mark": material("mark", hexrgb("#dedbd2"), 0.0, 0.8),
         "metal": material("metal", hexrgb("#c9c6bd"), 1.0, 0.28),
         "steel": material("steel", hexrgb("#a9a7a0"), 1.0, 0.42),
         "brass": material("brass", hexrgb("#b08a3c"), 1.0, 0.35),
@@ -172,12 +194,15 @@ def build():
     # ------------------------------------------------ 01 shell
     SEG, RINGS = 96, 28
     bm = bmesh.new()
-    rings = []
+    rings = [
+        [bm.verts.new(outline_pt(2 * math.pi * i / SEG)) for i in range(SEG)],
+        [bm.verts.new(outline_pt(2 * math.pi * i / SEG) + Vector((0, 0, -BAND))) for i in range(SEG)],
+    ]
     for j in range(RINGS):
         d = j / RINGS
         rings.append([bm.verts.new(shell_point(2 * math.pi * i / SEG, d)) for i in range(SEG)])
     pole = bm.verts.new(LEAN + Vector((0, 0, -DEPTH)))
-    for j in range(RINGS - 1):
+    for j in range(len(rings) - 1):
         for i in range(SEG):
             a, b = rings[j][i], rings[j][(i + 1) % SEG]
             c, e = rings[j + 1][(i + 1) % SEG], rings[j + 1][i]
@@ -186,25 +211,49 @@ def build():
         bm.faces.new((rings[-1][i], pole, rings[-1][(i + 1) % SEG]))
     shell = obj_from_bmesh("shell", bm, M["resin"])
     sol = shell.modifiers.new("wall", "SOLIDIFY")
-    sol.thickness = 1.1
+    sol.thickness = 1.0
     sol.offset = -1
+    es = shell.modifiers.new("edge", "EDGE_SPLIT")
+    es.split_angle = math.radians(32)
     shell.parent = root
 
-    # connector socket: a plain recessed boss on the rim, no connector type implied
-    t_sock = math.radians(78)
-    p = outline_pt(t_sock, 0.86) + Vector((0, 0, -2.4))
-    socket = cylinder("socket", 1.9, 2.6, M["resin"], seg=32, loc=p)
-    align_z_to(socket, outline_pt(t_sock).normalized() + Vector((0, 0, 0.1)))
+    def on_wall(name, bm, mat, t, z, smooth=False):
+        ob = obj_from_bmesh(name, bm, mat, smooth)
+        ob.matrix_world = outline_frame(t, z)
+        return ob
+
+    # connector: a flush two-pin socket set into the straight wall
+    t_sock = math.radians(80)
+    bm = bmesh.new()
+    bmesh.ops.create_cube(bm, size=1)
+    bmesh.ops.scale(bm, vec=(4.8, 1.9, 1.3), verts=bm.verts)
+    bmesh.ops.translate(bm, vec=(0, 0, -0.6), verts=bm.verts)
+    socket = on_wall("socket", bm, M["dark"], t_sock, -BAND / 2)
+    bev = socket.modifiers.new("bevel", "BEVEL")
+    bev.width = 0.45
+    bev.segments = 4
+    for k, x in enumerate((-1.0, 1.0)):
+        bm = bmesh.new()
+        bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=0.4, radius2=0.4, depth=0.3)
+        bmesh.ops.translate(bm, vec=(x, 0, -0.08), verts=bm.verts)
+        pin = on_wall(f"socket_pin_{k}", bm, M["pad"], t_sock, -BAND / 2, smooth=True)
+        pin.parent = socket
+        pin.matrix_parent_inverse = socket.matrix_world.inverted()
     socket.parent = shell
-    well = cylinder("socket_well", 1.25, 0.4, M["dark"], seg=32, loc=(0, 0, 1.15))
-    well.parent = socket
+
+    # pressure vent: a small flush port on the wall
+    bm = bmesh.new()
+    bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=0.38, radius2=0.38, depth=0.3)
+    bmesh.ops.translate(bm, vec=(0, 0, -0.1), verts=bm.verts)
+    vent = on_wall("vent", bm, M["dark"], math.radians(215), -BAND / 2, smooth=True)
+    vent.parent = shell
 
     # ------------------------------------------------ 02 faceplate
     bm = bmesh.new()
     PSEG = 128
-    top = [bm.verts.new(outline_pt(2 * math.pi * i / PSEG, 0.965) + Vector((0, 0, 1.25))) for i in range(PSEG)]
-    mid = [bm.verts.new(outline_pt(2 * math.pi * i / PSEG, 1.0) + Vector((0, 0, 0.75))) for i in range(PSEG)]
-    bot = [bm.verts.new(outline_pt(2 * math.pi * i / PSEG, 1.0) + Vector((0, 0, 0.05))) for i in range(PSEG)]
+    top = [bm.verts.new(outline_pt(2 * math.pi * i / PSEG, 0.912) + Vector((0, 0, 1.0))) for i in range(PSEG)]
+    mid = [bm.verts.new(outline_pt(2 * math.pi * i / PSEG, 0.95) + Vector((0, 0, 0.62))) for i in range(PSEG)]
+    bot = [bm.verts.new(outline_pt(2 * math.pi * i / PSEG, 0.95) + Vector((0, 0, -0.2))) for i in range(PSEG)]
     bm.faces.new(top)
     bm.faces.new(list(reversed(bot)))
     for ra, rb in ((top, mid), (mid, bot)):
@@ -212,7 +261,7 @@ def build():
             bm.faces.new((ra[i], rb[i], rb[(i + 1) % PSEG], ra[(i + 1) % PSEG]))
     plate = obj_from_bmesh("faceplate", bm, M["plate"])
     es = plate.modifiers.new("edge", "EDGE_SPLIT")
-    es.split_angle = math.radians(35)
+    es.split_angle = math.radians(30)
     plate.parent = root
 
     # wordmark on the faceplate, from the outlined brand SVG
@@ -235,7 +284,7 @@ def build():
         width = max(mark.dimensions.x, mark.dimensions.y)
         k = 9.0 / width  # about 9 mm wide on the concept plate
         mark.scale = (k, k, k)
-        mark.location = (0.6, 0.2, 1.262)
+        mark.location = (0.6, 0.2, 1.012)
         mark.rotation_euler = (0, 0, math.radians(-18))
         mark.data.materials.clear()
         mark.data.materials.append(M["mark"])
@@ -251,9 +300,11 @@ def build():
     nozzle = empty("nozzle", root)
     nozzle.location = base
     align_z_to(nozzle, NOZZLE_DIR)
-    flare = cylinder("nozzle_flare", 4.6, 3.2, M["resin"], r2=3.0, loc=(0, 0, 1.6))
-    stem = cylinder("nozzle_stem", 3.0, 5.2, M["resin"], loc=(0, 0, 5.8))
-    lip = cylinder("nozzle_lip", 3.45, 1.0, M["resin"], loc=(0, 0, 8.4))
+    flare = cylinder("nozzle_flare", 4.4, 2.6, M["resin"], r2=3.3, loc=(0, 0, 1.3))
+    collar = cylinder("nozzle_collar", 3.3, 0.5, M["resin"], loc=(0, 0, 2.85))
+    stem = cylinder("nozzle_stem", 2.9, 5.0, M["steel"], loc=(0, 0, 5.6))
+    lip = cylinder("nozzle_lip", 3.4, 0.9, M["steel"], loc=(0, 0, 8.45))
+    collar.parent = nozzle
     filt = cylinder("nozzle_filter", 2.5, 0.12, M["steel"], seg=32, loc=(0, 0, 8.93))
     for o in (flare, stem, lip, filt):
         o.parent = nozzle
