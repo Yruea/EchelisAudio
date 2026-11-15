@@ -52,5 +52,5 @@ Lighthouse does not interact with the page, so none of these numbers include the
 ## Housekeeping
 
 - Merged branches are still on GitHub (`redesign/instrument`, `stopgap/forms`, the favicon branches and others). They can be deleted.
-- `IEM_Basic_List.md` in the repo root is an internal planning document. If the repository is public, consider whether it should be.
+- `IEM_Basic_List.md`, an internal planning document, was removed from this public repository on 2026-11-15. It is still in the git history; rewriting history or making the repository private would be needed to remove it fully.
 - Rollback: the last old-site commit is tagged `pre-redesign`; Vercel's Instant Rollback also works.
