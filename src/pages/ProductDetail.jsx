@@ -120,17 +120,6 @@ export default function ProductDetail() {
             </h1>
             <p className="mt-5 text-lg text-muted-foreground leading-relaxed">{product.tagline}</p>
 
-            {/* Reservation counter */}
-            <div className="mt-8 rounded-sm border border-border bg-card p-5">
-              <div className="flex items-center justify-between">
-                <span className="font-mono-tech text-xs uppercase tracking-widest text-muted-foreground">Phase 01 · Early Access</span>
-                <span className="font-mono-tech text-sm text-foreground">{product.reservedPct}% reserved</span>
-              </div>
-              <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-                <div className="h-full rounded-full bg-primary" style={{ width: `${product.reservedPct}%` }} />
-              </div>
-            </div>
-
             {/* CTA */}
             <div className="mt-8">
               {comingSoon ? (
@@ -157,7 +146,7 @@ export default function ProductDetail() {
               {[
                 { k: 'Tuning', v: 'By intention' },
                 { k: 'Shell', v: 'Comfort-first' },
-                { k: 'Cable', v: 'Detachable · MMCX' },
+                { k: 'Cable', v: 'Connector to be decided' },
                 { k: 'Profile', v: 'Long-session' },
               ].map((x) => (
                 <div key={x.k} className="bg-card p-4">
