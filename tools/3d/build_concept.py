@@ -123,22 +123,30 @@ def align_z_to(ob, direction):
 
 
 # ---------------------------------------------------------------- outline
-def outline_r(t):
-    """Radius of the shell outline at angle t: a rounded triangle, as on
-    machined-metal universal monitors."""
-    return 9.1 + 1.2 * math.cos(t - 0.6) + 0.45 * math.cos(2 * t + 0.4) + 1.05 * math.cos(3 * t - 0.9)
+# Faceplate outline for a right earpiece, seen from outside (x toward the
+# back of the ear, y up), in mm. A rounded pick about 24 x 18.5 mm with its
+# peak near the cable socket: the proportions of a resin universal monitor.
+OUTLINE = [(12.2, 0.5), (11.0, 5.0), (6.8, 8.2), (1.0, 9.2), (-4.5, 9.6), (-7.8, 8.8), (-10.6, 5.0),
+           (-11.9, -1.5), (-10.8, -6.6), (-6.0, -8.7), (1.5, -8.4), (8.0, -7.0), (11.5, -3.6)]
 
 
 def outline_pt(t, scale=1.0):
-    r = outline_r(t) * scale
-    return Vector((r * math.cos(t) * 1.12, r * math.sin(t), 0))
+    """Point on the outline at parameter t (0..2pi), by a closed Catmull-Rom
+    spline through OUTLINE."""
+    n = len(OUTLINE)
+    u = (t / (2 * math.pi)) % 1.0 * n
+    i = int(u)
+    f = u - i
+    p0, p1, p2, p3 = (Vector(OUTLINE[(i + k - 1) % n]) for k in range(4))
+    q = 0.5 * ((2 * p1) + (-p0 + p2) * f + (2 * p0 - 5 * p1 + 4 * p2 - p3) * f * f + (-p0 + 3 * p1 - 3 * p2 + p3) * f**3)
+    return Vector((q.x * scale, q.y * scale, 0))
 
 
-DEPTH = 10.5  # shell depth below the faceplate plane
-BAND = 2.6  # straight machined wall under the faceplate
-CHAMFER = 0.7  # 45 degree break between the wall and the body
-BODY = 0.925  # outline scale where the body starts, after the chamfer
-LEAN = Vector((-3.2, -1.6, 0))  # how far the deepest point drifts toward the nozzle
+DEPTH = 12.5  # shell depth below the faceplate plane
+BAND = 2.8  # straight machined wall under the faceplate
+CHAMFER = 0.5  # 45 degree break between the wall and the body
+BODY = 0.95  # outline scale where the body starts, after the chamfer
+LEAN = Vector((-3.6, -2.0, 0))  # how far the deepest point drifts toward the nozzle
 NOZZLE_DIR = Vector((-0.5, -0.24, -0.83)).normalized()
 
 
@@ -171,11 +179,14 @@ def build():
 
     M = {
         # "resin" keeps its name for the web code; the concept shell is anodised metal
-        "resin": material("resin", hexrgb("#4a4945"), 1.0, 0.46),
-        "plate": material("plate", hexrgb("#5a5852"), 1.0, 0.4),
-        "mark": material("mark", hexrgb("#dedbd2"), 0.0, 0.8),
+        # gloss black body and faceplate frame; a matte metal panel set into the plate
+        "resin": material("resin", hexrgb("#1b1b1a"), 0.0, 0.12, coat=1.0),
+        "plate": material("plate", hexrgb("#141413"), 0.0, 0.14, coat=1.0),
+        "panel": material("panel", hexrgb("#9a978f"), 1.0, 0.46),
+        "mark": material("mark", hexrgb("#eceae4"), 0.0, 0.7),
         "metal": material("metal", hexrgb("#c9c6bd"), 1.0, 0.28),
         "steel": material("steel", hexrgb("#a9a7a0"), 1.0, 0.42),
+        "nozzle": material("nozzle", hexrgb("#2b2b29"), 1.0, 0.35),
         "brass": material("brass", hexrgb("#b08a3c"), 1.0, 0.35),
         "ceramic": material("ceramic", hexrgb("#e4e1d8"), 0.0, 0.55),
         "dark": material("dark", hexrgb("#161615"), 0.2, 0.6),
@@ -183,7 +194,7 @@ def build():
         "part": material("part", hexrgb("#c7a56a"), 0.2, 0.5),
         "pad": material("pad", hexrgb("#ffb000"), 1.0, 0.3),
         "tube": material("tube", hexrgb("#d9d6cc"), 0.0, 0.35, alpha=0.55),
-        "tip": material("tip", hexrgb("#2a2a28"), 0.0, 0.65),
+        "tip": material("tip", hexrgb("#3a3a37"), 0.0, 0.5),
     }
 
     root = empty("angostura_uno_concept")
@@ -223,7 +234,7 @@ def build():
         return ob
 
     # connector: a flush two-pin socket set into the straight wall
-    t_sock = math.radians(80)
+    t_sock = math.radians(92)
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=1)
     bmesh.ops.scale(bm, vec=(4.8, 1.9, 1.3), verts=bm.verts)
@@ -245,7 +256,7 @@ def build():
     bm = bmesh.new()
     bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=0.38, radius2=0.38, depth=0.3)
     bmesh.ops.translate(bm, vec=(0, 0, -0.1), verts=bm.verts)
-    vent = on_wall("vent", bm, M["dark"], math.radians(215), -BAND / 2, smooth=True)
+    vent = on_wall("vent", bm, M["steel"], math.radians(42), -BAND / 2, smooth=True)
     vent.parent = shell
 
     # ------------------------------------------------ 02 faceplate
@@ -264,7 +275,35 @@ def build():
     es.split_angle = math.radians(30)
     plate.parent = root
 
-    # wordmark on the faceplate, from the outlined brand SVG
+    # inset panel: a faceted metal plate above a sweeping lower band
+    def swoosh(x):
+        return -3.6 + 2.4 * math.sin((x + 2.0) / 7.0)
+
+    APEX = Vector((1.0, 2.4))
+    FACETS = [math.radians(a) for a in (25, 115, 205, 295)]
+
+    def facet_z(x, y):
+        d = Vector((x, y)) - APEX
+        return 1.75 - 0.07 * max(d.x * math.cos(a) + d.y * math.sin(a) for a in FACETS)
+
+    bm = bmesh.new()
+    rim = []
+    for i in range(PSEG):
+        q = outline_pt(2 * math.pi * i / PSEG, 0.86)
+        rim.append((q.x, max(q.y, swoosh(q.x))))
+    apex = bm.verts.new((APEX.x, APEX.y, facet_z(APEX.x, APEX.y)))
+    upper = [bm.verts.new((x, y, facet_z(x, y))) for x, y in rim]
+    lower = [bm.verts.new((x, y, 0.9)) for x, y in rim]
+    for i in range(PSEG):
+        j = (i + 1) % PSEG
+        bm.faces.new((apex, upper[i], upper[j]))
+        bm.faces.new((upper[i], lower[i], lower[j], upper[j]))
+    panel = obj_from_bmesh("faceplate_panel", bm, M["panel"])
+    pes = panel.modifiers.new("edge", "EDGE_SPLIT")
+    pes.split_angle = math.radians(1.2)
+    panel.parent = plate
+
+    # wordmark on the lower band, from the outlined brand SVG
     try:
         svg = os.path.join(REPO, "docs", "brand", "echelis-wordmark-on-dark.svg")
         before = set(bpy.data.objects)
@@ -282,10 +321,10 @@ def build():
         mark.name = "wordmark"
         bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
         width = max(mark.dimensions.x, mark.dimensions.y)
-        k = 9.0 / width  # about 9 mm wide on the concept plate
+        k = 8.0 / width  # about 8 mm wide on the concept plate
         mark.scale = (k, k, k)
-        mark.location = (0.6, 0.2, 1.012)
-        mark.rotation_euler = (0, 0, math.radians(-18))
+        mark.location = (4.3, -5.5, 1.012)
+        mark.rotation_euler = (0, 0, math.radians(9))
         mark.data.materials.clear()
         mark.data.materials.append(M["mark"])
         for col in list(mark.users_collection):
@@ -302,8 +341,8 @@ def build():
     align_z_to(nozzle, NOZZLE_DIR)
     flare = cylinder("nozzle_flare", 4.4, 2.6, M["resin"], r2=3.3, loc=(0, 0, 1.3))
     collar = cylinder("nozzle_collar", 3.3, 0.5, M["resin"], loc=(0, 0, 2.85))
-    stem = cylinder("nozzle_stem", 2.9, 5.0, M["steel"], loc=(0, 0, 5.6))
-    lip = cylinder("nozzle_lip", 3.4, 0.9, M["steel"], loc=(0, 0, 8.45))
+    stem = cylinder("nozzle_stem", 2.75, 5.0, M["nozzle"], loc=(0, 0, 5.6))
+    lip = cylinder("nozzle_lip", 3.15, 0.9, M["nozzle"], loc=(0, 0, 8.45))
     collar.parent = nozzle
     filt = cylinder("nozzle_filter", 2.5, 0.12, M["steel"], seg=32, loc=(0, 0, 8.93))
     for o in (flare, stem, lip, filt):
