@@ -1,9 +1,8 @@
-const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me: async()=>null }, entities:new Proxy({}, { get:()=>({ filter:async()=>[], get:async()=>null, create:async()=>({}), update:async()=>({}), delete:async()=>({}) }) }), integrations:{ Core:{ UploadFile:async()=>({ file_url:'' }) } } };
-
 import React, { useState } from 'react';
 
 import { ArrowRight, Check, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { submitForm } from '@/lib/forms';
 
 export default function WaitlistForm({
   source = 'general',
@@ -13,6 +12,7 @@ export default function WaitlistForm({
   variant = 'default', // 'default' | 'inline'
 }) {
   const [email, setEmail] = useState('');
+  const [gotcha, setGotcha] = useState('');
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [error, setError] = useState('');
 
@@ -25,12 +25,12 @@ export default function WaitlistForm({
     }
     setStatus('loading');
     try {
-      await db.entities.WaitlistEntry.create({ email, source, product_slug: productSlug });
+      await submitForm('earlyAccess', { email, source, product_slug: productSlug, _gotcha: gotcha });
       setStatus('success');
       setEmail('');
     } catch (err) {
       setStatus('error');
-      setError('Something went wrong. Please try again.');
+      setError('We could not save your signup. Please try again, or email hello@echelisaudio.com.');
     }
   };
 
@@ -52,6 +52,16 @@ export default function WaitlistForm({
 
   return (
     <form onSubmit={submit} className={cn('w-full', inline && 'flex flex-col sm:flex-row gap-3')}>
+      <input
+          type="text"
+          name="_gotcha"
+          value={gotcha}
+          onChange={(e) => setGotcha(e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          className="hidden"
+        />
       <div className={cn('relative', inline ? 'flex-1' : 'w-full')}>
         <input
           type="email"

@@ -30,13 +30,12 @@ export const products = [
     price: null,
     image: IMAGES.productMain,
     gallery: [IMAGES.productMain, IMAGES.heroIem, IMAGES.engineeringMacro, IMAGES.materials],
-    reservedPct: 84,
     tuningPhilosophy:
       'We are tuning Angosta One toward emotional honesty rather than spectacle. The goal is a signature that feels open and unforced — articulate in the mids, controlled and textured in the bass, and extended without fatigue up top. Every voicing decision is being validated by ear, not by graph alone.',
     shellDesign:
       'A comfort-first shell sculpted from ear impressions and refined through iterative 3D printing. The body is sized to sit flush within the concha, distributing pressure evenly so the monitor disappears during long sessions. Materials under evaluation include CNC-machined titanium and translucent resin.',
     cable:
-      'A detachable cable with MMCX connectors is planned, using silver-plated Litz wire in a braided geometry. Detachability means the cable is replaceable and upgradeable — the monitor is built to last, not to be disposable.',
+      'A detachable cable is planned (connector type not yet decided), using silver-plated Litz wire in a braided geometry. Detachability means the cable is replaceable and upgradeable — the monitor is built to last, not to be disposable.',
     driverArchitecture:
       'A multi-driver balanced armature architecture is under development, with a custom crossover designed to keep each driver working in its most linear range. The exact driver count and configuration remain subject to refinement as prototyping continues.',
     listeningProfile:
@@ -49,7 +48,7 @@ export const products = [
       { label: 'Impedance', value: 'To be confirmed', tentative: true },
       { label: 'Sensitivity', value: 'To be confirmed', tentative: true },
       { label: 'Shell material', value: 'Titanium / translucent resin (under evaluation)', tentative: true },
-      { label: 'Connector', value: 'MMCX detachable', tentative: false },
+      { label: 'Connector', value: 'To be decided', tentative: true },
       { label: 'Cable', value: 'Silver-plated Litz, braided', tentative: true },
       { label: 'Ear tips', value: 'Silicone + foam options included', tentative: false },
     ],
@@ -158,7 +157,7 @@ export const explodedComponents = [
   {
     id: 'cable',
     name: 'Cable Connection',
-    spec: 'MMCX · silver litz',
+    spec: 'Connector to be decided',
     desc: 'The link. Detachable, replaceable, and built to be upgraded.',
   },
 ];
