@@ -11,12 +11,10 @@ import { parts, product } from '../data/site';
 <section class="stage ruled" data-stage>
   <div class="stage__pin">
     <div class="stage__view" aria-hidden="true">
-      <svg class="stage__poster" viewBox="0 0 420 380" fill="none" stroke="currentColor" stroke-width="1.2">
-        <path d="M150 70c70-40 190-10 210 80s-40 170-130 170S80 270 78 190 100 98 150 70z"></path>
-        <path class="stage__poster-faint" d="M175 110c50-26 130-6 144 56s-30 116-92 116-104-36-106-92 22-64 54-80z"></path>
-        <path d="M92 250l-46 40 26 34 52-36"></path>
-        <circle class="stage__poster-faint" cx="222" cy="196" r="34"></circle>
-      </svg>
+      <picture>
+        <source srcset="/img/hero-poster.avif" type="image/avif" />
+        <img class="stage__poster" src="/img/hero-poster.webp" alt="" width="760" height="484" decoding="async" fetchpriority="high" />
+      </picture>
       <canvas class="stage__canvas"></canvas>
       <svg class="stage__leader"><line></line><circle r="5"></circle></svg>
     </div>
@@ -27,6 +25,7 @@ import { parts, product } from '../data/site';
       <p class="lead">Two people. One hybrid in-ear monitor. Every step published.</p>
       <p><a class="btn" href="#early-access">Join early access <span class="btn__arrow" aria-hidden="true">→</span></a></p>
     </div>
+    <p class="stage__note label label--s">Concept model. Not the final design.</p>
 
     <div class="wrap stage__anatomy">
       <div class="stage__anatomy-head">
@@ -71,6 +70,19 @@ import { parts, product } from '../data/site';
 </section>
 
 <style>
+  .stage {
+    --poster-x: 76%;
+    --poster-y: 50%;
+    --poster-w: 42vw;
+  }
+  @media (orientation: portrait) {
+    .stage {
+      --poster-x: 50%;
+      --poster-y: 80%;
+      --poster-w: 86vw;
+    }
+  }
+
   /* ---------- static layout (default) ---------- */
   .stage__view {
     color: var(--line-strong);
@@ -92,7 +104,13 @@ import { parts, product } from '../data/site';
   }
   .stage__poster {
     width: min(100%, 26rem);
+    height: auto;
     margin-inline: auto;
+  }
+  .stage__note {
+    grid-row: 3;
+    padding: var(--space-3) var(--gutter) 0;
+    text-align: center;
   }
   .stage__hero {
     display: grid;
@@ -159,12 +177,22 @@ import { parts, product } from '../data/site';
     inset: 0;
     padding: 0;
   }
+  /* The poster sits where the live model appears, so the swap does not jump.
+     These percentages mirror the hero placement in stage-3d.ts. */
   :global(.stage-on) .stage__poster {
     position: absolute;
-    right: var(--gutter);
-    bottom: var(--space-6);
-    width: min(60vw, 60svh);
+    left: var(--poster-x);
+    top: var(--poster-y);
+    width: var(--poster-w);
+    max-width: none;
+    transform: translate(-50%, -50%);
     transition: opacity var(--dur-3) var(--ease-mech);
+  }
+  :global(.stage-on) .stage__note {
+    position: absolute;
+    right: var(--gutter);
+    bottom: var(--space-4);
+    padding: 0;
   }
   :global(.stage-on) .stage__canvas {
     display: block;

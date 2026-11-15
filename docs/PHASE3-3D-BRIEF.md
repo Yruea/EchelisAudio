@@ -133,3 +133,21 @@ Done means:
 6. **Connector socket:** the spec sheet says the connector is undecided. Should the model show a generic recessed socket, or leave it out until it is decided?
 7. **Ear tip and tubes:** include these two optional parts?
 8. **Which side:** right earpiece?
+
+## 9. Concept model (built 2026-11-14)
+
+No CAD exists yet, so the site currently uses a **concept model**, labelled as such on the page.
+
+- **Source:** `tools/3d/build_concept.py`, run headless in Blender 4.5 LTS. It builds all eleven parts, exports the GLB and renders previews and the hero poster.
+- **Output:** `public/models/angostura-uno-concept.glb`, about 19,000 triangles, 119 kB with Meshopt compression (`npx @gltf-transform/cli meshopt in.glb out.glb`).
+- **Poster:** `public/img/hero-poster.avif` (8 kB) and `.webp` (14 kB), rendered from the same model.
+- **Proportions** are typical of a universal in-ear monitor, with the 10 mm dynamic driver and roughly 6 mm nozzle from `IEM_Basic_List.md`. They are not specifications.
+- **Previews:** `docs/phase3/`.
+
+To rebuild after editing the script:
+
+```bash
+blender -b --python tools/3d/build_concept.py -- <output folder>
+```
+
+Still open from section 7: a separate simplified mobile model (the 19,000-triangle model is already below the 25,000 mobile target, so one may not be needed) and the real-phone performance test.

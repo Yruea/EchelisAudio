@@ -370,7 +370,7 @@ def build():
     return root, scene
 
 
-def render(scene, root, path, explode):
+def render(scene, root, path, explode, poster=False):
     """Preview render so the model can be checked without opening Blender."""
     offsets = {"shell": -7, "faceplate": 21, "nozzle": -19, "eartip": -30, "drivers": 2, "crossover": 11.5}
     moved = []
@@ -384,9 +384,9 @@ def render(scene, root, path, explode):
     cam = bpy.data.objects.new("cam", cam_d)
     scene.collection.objects.link(cam)
     # root maps model +Z to world -Y; look from the faceplate side, three-quarter
-    target = Vector((0, 8, -2)) if explode else Vector((-2, 6, -3))
+    target = Vector((0, 8, -2)) if explode else Vector((-5, 7, -3)) if poster else Vector((-2, 6, -3))
     direction = Vector((-0.85, -0.35, 0.3)) if explode else Vector((-0.55, -0.75, 0.3))
-    cam.location = target + direction.normalized() * (235 if explode else 120)
+    cam.location = target + direction.normalized() * (235 if explode else 112 if poster else 120)
     cam.rotation_euler = (target - cam.location).to_track_quat("-Z", "Y").to_euler()
     scene.camera = cam
     lights = []
@@ -406,7 +406,14 @@ def render(scene, root, path, explode):
     scene.render.engine = "CYCLES"
     scene.cycles.samples = 48
     scene.cycles.use_denoising = True
-    scene.render.resolution_x, scene.render.resolution_y = 1200, 800
+    scene.render.resolution_x, scene.render.resolution_y = (1000, 1000) if poster else (1200, 800)
+    scene.render.film_transparent = poster
+    scene.render.image_settings.color_mode = "RGBA" if poster else "RGB"
+    if poster:
+        # a soft grey surround so the metal has something to reflect; the
+        # film is transparent, so it does not appear in the image
+        world.node_tree.nodes["Background"].inputs[0].default_value = (0.42, 0.41, 0.39, 1)
+        scene.cycles.samples = 96
     scene.render.filepath = path
     scene.view_settings.view_transform = "Standard"
     bpy.ops.render.render(write_still=True)
@@ -424,6 +431,7 @@ try:
     if "--no-render" not in sys.argv:
         render(scene, root, os.path.join(OUT, "preview-assembled.png"), False)
         render(scene, root, os.path.join(OUT, "preview-exploded.png"), True)
+        render(scene, root, os.path.join(OUT, "poster.png"), False, poster=True)
         log("rendered previews")
     log("DONE")
 except Exception:

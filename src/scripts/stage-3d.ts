@@ -27,7 +27,7 @@ import type { StageState } from './stage-scroll';
 const MODEL_URL = '/models/angostura-uno-concept.glb';
 // The model is authored in millimetres; the scene works in units of 10 mm.
 const MM = 0.1;
-// Node name → how far it travels along the model's Z axis when exploded (mm),
+// Node name → how far it travels along the model's explode axis (mm),
 // and which callout lights it. The ear tip travels with the nozzle callout.
 const PARTS: Record<string, { offset: number; callout: string }> = {
   shell: { offset: -7, callout: 'shell' },
@@ -112,7 +112,9 @@ export async function initStage3D(stage: HTMLElement, state: StageState) {
       child.material = clones.get(source)!;
     });
     const anchor = node.worldToLocal(new Box3().setFromObject(node).getCenter(new Vector3()));
-    parts.push({ node, rest: node.position.z, offset, callout, anchor, materials: [...clones.values()] });
+    // The model's explode axis (Blender +Z, through the faceplate) is each
+    // node's local +Y after the glTF exporter's Y-up conversion.
+    parts.push({ node, rest: node.position.y, offset, callout, anchor, materials: [...clones.values()] });
   }
   // the part each callout's leader line points at (first match, so the
   // nozzle callout points at the nozzle, not the ear tip)
@@ -144,9 +146,9 @@ export async function initStage3D(stage: HTMLElement, state: StageState) {
     const heroness = 1 - Math.min(1, p / 0.1);
     // visible half-width of the view at the model's depth
     const halfW = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z * camera.aspect;
-    model.position.x = portrait ? 0 : lerp(halfW * 0.22, halfW * 0.6, heroness);
+    model.position.x = portrait ? 0 : lerp(halfW * 0.22, halfW * 0.62, heroness);
     model.position.y = portrait ? lerp(0.5, -1.5, heroness) : 0;
-    const scale = (portrait ? 0.62 : Math.min(1, halfW / 3.4)) * lerp(0.9, 0.82, heroness);
+    const scale = (portrait ? 0.62 : Math.min(1, halfW / 3.4)) * lerp(0.9, 0.95, heroness);
     // exploded, shrink so the whole row of parts fits the view width
     const fit = Math.min(scale, (halfW * 2 * 0.86) / EXPLODED_SPAN);
     model.scale.setScalar(lerp(scale, fit, explode));
@@ -156,11 +158,11 @@ export async function initStage3D(stage: HTMLElement, state: StageState) {
     // side-on view when exploded so the parts read along one axis
     const side = -1.05;
     const turn = Math.min(1, p / 0.1) * Math.PI * 2;
-    model.rotation.y = lerp(-0.85 + Math.sin(t * 0.4) * 0.12 + turn, side + Math.sin(t * 0.3) * 0.04, explode);
+    model.rotation.y = lerp(0.65 + Math.sin(t * 0.4) * 0.12 + turn, side + Math.sin(t * 0.3) * 0.04, explode);
     model.rotation.x = lerp(0.25, 0.18, explode);
 
     for (const part of parts) {
-      part.node.position.z = part.rest + part.offset * explode;
+      part.node.position.y = part.rest + part.offset * explode;
       const target = lit === null || part.callout === lit ? 1 : dim;
       for (const m of part.materials) m.opacity = lerp(m.opacity, target, 0.18);
     }
