@@ -1,0 +1,12 @@
+{
+  "name": "Echelis Audio",
+  "short_name": "Echelis",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0e0e0d",
+  "theme_color": "#0e0e0d",
+  "icons": [
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

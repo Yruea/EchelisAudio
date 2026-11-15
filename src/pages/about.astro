@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import EarlyAccess from '../components/EarlyAccess.astro';
+import { site, team } from '../data/site';
+---
+
+<Base title="About" description="Echelis Audio is a six-person team, founded in July 2026, building its first in-ear monitor in the open.">
+  <PageHead label={`Founded ${site.founded}`} title="Six people. One monitor." />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">01 — Mission</p>
+        <h2 class="h2">Make one thing well, in public.</h2>
+      </div>
+      <div class="prose">
+        <p>Echelis Audio is a team of six. We started in {site.founded} to build an in-ear monitor, and to show the work while we do it.</p>
+        <p>The Angostura Uno is that monitor. It is a hybrid, it is in development, and most of its numbers are not final. When they are, they go on the spec sheet. Until then the sheet says "to be confirmed".</p>
+        <p>The journal is where the build is written down as it happens.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">02 — Team</p>
+        <h2 class="h2">Who is building it.</h2>
+      </div>
+      <dl class="rows">
+        {
+          team.map((member, i) => (
+            <div class="row">
+              <dt class="label">
+                <span class="label--text">T-{String(i + 1).padStart(2, '0')}</span> {member.role ?? 'Role to come'}
+              </dt>
+              <dd class:list={[{ 'is-open': !member.name }]}>{member.name ?? 'Name to come'}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">03 — Contact</p>
+        <h2 class="h2">Write to us.</h2>
+      </div>
+      <p class="lead"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+  </section>
+
+  <EarlyAccess index="04" source="about" />
+</Base>

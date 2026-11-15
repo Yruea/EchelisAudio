@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import FreqLine from '../components/FreqLine.astro';
+---
+
+<Base title="You're on the list" noindex>
+  <section class="wrap thanks">
+    <FreqLine id="thanks" />
+    <p class="label">Early access · Confirmed</p>
+    <h1 class="h2">You're on the list.</h1>
+    <p class="lead">We'll write when there is something real to report.</p>
+    <p><a class="btn" href="/journal">Read the journal <span class="btn__arrow" aria-hidden="true">→</span></a></p>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+    padding-block: var(--space-9);
+  }
+</style>

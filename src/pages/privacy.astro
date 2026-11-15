@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Privacy" description="What Echelis Audio collects when you join early access, where it goes, and how to have it removed.">
+  <PageHead label="Last updated 2026-11-14" title="Privacy" />
+  <section class="section">
+    <div class="wrap prose">
+      <h2 class="h3">What we collect</h2>
+      <p>If you join early access, we collect the email address you enter and which page you signed up from. Nothing else is asked for.</p>
+      <h2 class="h3">Where it goes</h2>
+      <p>Form submissions are processed and stored by Formspree, our form provider, and delivered to our inbox. We do not sell or share your address.</p>
+      <h2 class="h3">What we use it for</h2>
+      <p>Updates about the Angostura Uno build, and notice when there is something to order. Every email will include a way to unsubscribe.</p>
+      <h2 class="h3">Analytics</h2>
+      <p>We use Vercel Web Analytics to count page views. It does not use cookies and does not identify individual visitors.</p>
+      <h2 class="h3">Removal</h2>
+      <p>To see, correct or delete what we hold about you, email <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prose h2 {
+    margin-top: var(--space-6);
+  }
+</style>

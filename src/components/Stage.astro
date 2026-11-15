@@ -1,0 +1,277 @@
+---
+// Hero + exploded-view scroll sequence.
+//
+// Default (no JS, reduced motion, or no WebGL): a static hero followed by a
+// static exploded diagram with all five callouts listed.
+// With `html.stage-on`: the section pins for --stage-screens viewports and
+// the 3D model (src/scripts/stage.ts, loaded lazily) plays the sequence.
+import { parts, product } from '../data/site';
+---
+
+<section class="stage ruled" data-stage>
+  <div class="stage__pin">
+    <div class="stage__view" aria-hidden="true">
+      <svg class="stage__poster" viewBox="0 0 420 380" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M150 70c70-40 190-10 210 80s-40 170-130 170S80 270 78 190 100 98 150 70z"></path>
+        <path class="stage__poster-faint" d="M175 110c50-26 130-6 144 56s-30 116-92 116-104-36-106-92 22-64 54-80z"></path>
+        <path d="M92 250l-46 40 26 34 52-36"></path>
+        <circle class="stage__poster-faint" cx="222" cy="196" r="34"></circle>
+      </svg>
+      <canvas class="stage__canvas"></canvas>
+      <svg class="stage__leader"><line></line><circle r="5"></circle></svg>
+    </div>
+
+    <div class="wrap stage__hero" data-stage-hero>
+      <p class="label">EA-01 / {product.name} — {product.status}</p>
+      <h1 class="display">Built in the open.</h1>
+      <p class="lead">Six people. One hybrid in-ear monitor. Every step published.</p>
+      <p><a class="btn" href="#early-access">Join early access <span class="btn__arrow" aria-hidden="true">→</span></a></p>
+    </div>
+
+    <div class="wrap stage__anatomy">
+      <div class="stage__anatomy-head">
+        <p class="label">01 — Anatomy</p>
+        <h2 class="h2">Five parts.</h2>
+      </div>
+      <svg class="stage__diagram" viewBox="0 0 800 460" fill="none" stroke="currentColor" stroke-width="1.2" role="img" aria-label="Exploded diagram of an in-ear monitor: nozzle, shell, drivers, crossover and faceplate laid out along one axis.">
+        <path class="stage__poster-faint" stroke-dasharray="4 6" d="M70 400L740 90"></path>
+        <path d="M92 372l44-22 16 30-44 24z"></path>
+        <path d="M216 232c40-34 112-22 126 40s-22 112-80 112-84-36-86-80 12-52 40-72z"></path>
+        <path class="stage__poster-faint" d="M236 262c26-20 70-12 78 26s-14 68-50 68-52-22-52-50 8-32 24-44z"></path>
+        <circle cx="418" cy="252" r="30"></circle>
+        <rect x="446" y="196" width="34" height="20" transform="rotate(-25 463 206)"></rect>
+        <rect x="392" y="296" width="26" height="16" transform="rotate(-25 405 304)"></rect>
+        <path d="M512 214l76-34 22 30-76 36z"></path>
+        <path d="M640 96c34-28 92-16 102 34s-20 90-66 90-68-30-70-64 12-44 34-60z"></path>
+        <g class="stage__dots" stroke="none">
+          <circle cx="262" cy="300" r="5"></circle><circle cx="690" cy="158" r="5"></circle><circle cx="122" cy="376" r="5"></circle><circle cx="418" cy="252" r="5"></circle><circle cx="560" cy="212" r="5"></circle>
+        </g>
+        <g class="stage__nums" stroke="none">
+          <text x="250" y="420">01</text><text x="680" y="64">02</text><text x="100" y="336">03</text><text x="408" y="186">04</text><text x="566" y="166">05</text>
+        </g>
+      </svg>
+      <ol class="stage__callouts">
+        {
+          parts.map((part) => (
+            <li class="callout" data-part={part.id}>
+              <p class="label">
+                <span class="callout__index">{part.index}</span> {part.code} / {part.name}
+              </p>
+              <p class="callout__line">{part.line}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="stage__end">
+        <span class="label">That is the whole thing.</span>
+        <a class="btn" href="#early-access">Join early access <span class="btn__arrow" aria-hidden="true">→</span></a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- static layout (default) ---------- */
+  .stage__view {
+    color: var(--line-strong);
+  }
+  .stage__poster-faint {
+    stroke: var(--line);
+  }
+  .stage__canvas,
+  .stage__leader,
+  .stage__end {
+    display: none;
+  }
+  .stage__pin {
+    display: grid;
+  }
+  .stage__view {
+    grid-row: 2;
+    padding: var(--space-6) var(--gutter) 0;
+  }
+  .stage__poster {
+    width: min(100%, 26rem);
+    margin-inline: auto;
+  }
+  .stage__hero {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-8) var(--space-6);
+  }
+  .stage__anatomy {
+    display: grid;
+    gap: var(--space-7);
+    padding-block: var(--section-gap);
+  }
+  .stage__anatomy-head {
+    display: grid;
+    gap: var(--space-5);
+  }
+  .stage__diagram {
+    width: 100%;
+    max-width: 60rem;
+    color: var(--line-strong);
+  }
+  .stage__dots {
+    fill: var(--accent);
+  }
+  .stage__nums {
+    fill: var(--text);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    letter-spacing: var(--track-label);
+  }
+  .stage__callouts {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+  .callout {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding-top: var(--space-4);
+    border-top: var(--hairline) solid var(--line);
+  }
+  .callout__index {
+    color: var(--accent);
+  }
+  .callout__line {
+    font-size: var(--type-body-l);
+    line-height: var(--lh-body-l);
+    max-width: var(--measure-narrow);
+  }
+
+  /* ---------- pinned 3D layout ---------- */
+  :global(.stage-on) .stage {
+    height: calc(var(--stage-screens) * 100svh);
+  }
+  :global(.stage-on) .stage__pin {
+    display: block;
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100svh - var(--header-h));
+    overflow: hidden;
+  }
+  :global(.stage-on) .stage__view {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+  }
+  :global(.stage-on) .stage__poster {
+    position: absolute;
+    right: var(--gutter);
+    bottom: var(--space-6);
+    width: min(60vw, 60svh);
+    transition: opacity var(--dur-3) var(--ease-mech);
+  }
+  :global(.stage-on) .stage__canvas {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease-mech);
+  }
+  :global(.stage-ready) .stage__canvas {
+    opacity: 1;
+  }
+  :global(.stage-ready) .stage__poster {
+    opacity: 0;
+  }
+  :global(.stage-on) .stage__leader {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease-mech);
+  }
+  :global(.stage-on) .stage__leader.is-on {
+    opacity: 1;
+  }
+  .stage__leader line {
+    stroke: var(--accent);
+    stroke-width: 1;
+  }
+  .stage__leader circle {
+    fill: var(--accent);
+  }
+  :global(.stage-on) .stage__hero {
+    position: absolute;
+    inset: 0;
+    align-content: center;
+    padding-block: var(--space-6);
+    opacity: var(--hero-o, 1);
+    transform: translateY(calc((1 - var(--hero-o, 1)) * var(--shift) * -1));
+  }
+  :global(.stage-on) .stage__hero.is-gone {
+    visibility: hidden;
+  }
+  :global(.stage-on) .stage__anatomy {
+    position: absolute;
+    inset: 0;
+    display: block;
+    padding-block: var(--space-6);
+    pointer-events: none;
+  }
+  :global(.stage-on) .stage__diagram {
+    display: none;
+  }
+  :global(.stage-on) .stage__anatomy-head {
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease-mech);
+  }
+  :global(.stage-on) .stage__anatomy.is-on .stage__anatomy-head {
+    opacity: 1;
+  }
+  :global(.stage-on) .stage__callouts {
+    display: block;
+  }
+  :global(.stage-on) .callout {
+    position: absolute;
+    left: var(--gutter);
+    bottom: var(--space-7);
+    width: min(24rem, calc(100% - 2 * var(--gutter)));
+    opacity: 0;
+    transform: translateY(var(--shift));
+    transition:
+      opacity var(--dur-2) var(--ease-mech),
+      transform var(--dur-2) var(--ease-mech);
+  }
+  :global(.stage-on) .callout.is-active {
+    opacity: 1;
+    transform: none;
+  }
+  :global(.stage-on) .stage__end {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+    position: absolute;
+    left: var(--gutter);
+    bottom: var(--space-7);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--dur-2) var(--ease-mech),
+      visibility 0s var(--dur-2);
+  }
+  :global(.stage-on) .stage__end.is-on {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  .stage__hero .display {
+    font-size: min(var(--type-display), 22svh);
+  }
+</style>
+
+<script>
+  import { initStageScroll } from '../scripts/stage-scroll';
+  initStageScroll();
+</script>

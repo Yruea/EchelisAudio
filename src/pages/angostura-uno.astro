@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import SpecSheet from '../components/SpecSheet.astro';
+import EarlyAccess from '../components/EarlyAccess.astro';
+import { faqs, parts, product, site } from '../data/site';
+
+const schema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    category: product.type,
+    description: `${product.name} is a hybrid in-ear monitor in development at Echelis Audio. Not yet available to order.`,
+    brand: { '@type': 'Brand', name: site.name },
+    url: `${site.url}/${product.slug}`,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+<Base
+  title={product.name}
+  description="The Angostura Uno is a hybrid in-ear monitor in development at Echelis Audio. See the open spec sheet, the five parts, and what is still undecided."
+  schema={schema}
+>
+  <PageHead
+    label={`EA-01 / ${product.status}`}
+    title={product.name}
+    lead="A hybrid in-ear monitor. Our first product, and not finished."
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">01 — Specification</p>
+        <h2 class="h2">The sheet so far.</h2>
+        <p class="lead">Every row marked "to be confirmed" is a decision we have not made or a number we have not measured.</p>
+      </div>
+      <SpecSheet />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">02 — Design notes</p>
+        <h2 class="h2">Part by part.</h2>
+      </div>
+      <ol class="notes">
+        {
+          parts.map((part) => (
+            <li class="note">
+              <p class="label">
+                <span class="note__index">{part.index}</span> {part.code} / {part.name}
+              </p>
+              <div class="prose">
+                <p class="note__line">{part.line}</p>
+                <p class="note__more">{part.note}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="label">03 — Questions</p>
+        <h2 class="h2">Asked so far.</h2>
+      </div>
+      <dl class="rows">
+        {
+          faqs.map((item) => (
+            <div class="row">
+              <dt class="h3">{item.q}</dt>
+              <dd class="prose">{item.a}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <EarlyAccess index="04" source="product" />
+</Base>
+
+<style>
+  .notes {
+    border-top: var(--hairline) solid var(--line);
+  }
+  .note {
+    display: grid;
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+  .note__index {
+    color: var(--accent);
+  }
+  .note__line {
+    font-size: var(--type-body-l);
+    line-height: var(--lh-body-l);
+  }
+  .note__more {
+    color: var(--muted);
+  }
+  @media (min-width: 60rem) {
+    .note {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    }
+  }
+  @media (max-width: 47.99rem) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

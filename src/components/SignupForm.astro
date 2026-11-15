@@ -1,0 +1,148 @@
+---
+// Early-access form. Without JS it posts straight to Formspree. With JS it
+// submits in place and shows the success state.
+import FreqLine from './FreqLine.astro';
+import { site } from '../data/site';
+interface Props {
+  source: string;
+}
+const { source } = Astro.props;
+const uid = `signup-${source}`;
+---
+
+<div class="signup" data-signup>
+  <form class="signup__form" action={site.formEndpoint} method="POST" novalidate>
+    <input type="hidden" name="form" value="early-access" />
+    <input type="hidden" name="source" value={source} />
+    <input type="hidden" name="_subject" value="New early-access signup" />
+    <input type="hidden" name="_next" value={`${site.url}/thanks`} />
+    <p class="signup__trap" aria-hidden="true">
+      <label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+    </p>
+    <label class="label" for={uid}>Email address</label>
+    <div class="signup__row">
+      <input
+        class="signup__input"
+        id={uid}
+        type="email"
+        name="email"
+        required
+        autocomplete="email"
+        inputmode="email"
+        placeholder="you@example.com"
+        aria-describedby={`${uid}-msg ${uid}-note`}
+      />
+      <button class="btn" type="submit">Join early access <span class="btn__arrow" aria-hidden="true">→</span></button>
+    </div>
+    <p class="signup__msg label" id={`${uid}-msg`} role="alert"></p>
+    <p class="signup__note label label--s" id={`${uid}-note`}>
+      Build updates only. Unsubscribe any time. <a href="/privacy">Privacy</a>
+    </p>
+  </form>
+  <div class="signup__done" hidden tabindex="-1">
+    <FreqLine id={uid} draw />
+    <p class="h3">You're on the list.</p>
+    <p class="label">We'll write when there is something real to report.</p>
+  </div>
+</div>
+
+<style>
+  .signup {
+    max-width: var(--measure);
+  }
+  .signup__form {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .signup__form[hidden] {
+    display: none;
+  }
+  .signup__trap {
+    position: absolute;
+    left: -100vw;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .signup__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .signup__input {
+    flex: 1 1 16rem;
+    min-height: var(--tap-min);
+    padding: var(--space-3) var(--space-4);
+    border: var(--hairline) solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+  }
+  .signup__input::placeholder {
+    color: var(--muted);
+  }
+  .signup__input[aria-invalid='true'] {
+    border-color: var(--signal-low);
+  }
+  .signup__msg {
+    color: var(--signal-low);
+  }
+  .signup__msg:empty {
+    display: none;
+  }
+  .signup__done {
+    display: grid;
+    gap: var(--space-3);
+  }
+  /* focus is moved here for screen readers; it is not an interactive target */
+  .signup__done:focus {
+    outline: none;
+  }
+  .signup__done[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  for (const root of document.querySelectorAll<HTMLElement>('[data-signup]')) {
+    const form = root.querySelector('form')!;
+    const input = form.querySelector<HTMLInputElement>('input[type=email]')!;
+    const msg = form.querySelector<HTMLElement>('.signup__msg')!;
+    const button = form.querySelector<HTMLButtonElement>('button')!;
+    const done = root.querySelector<HTMLElement>('.signup__done')!;
+    const fail = (text: string) => {
+      msg.textContent = text;
+      input.setAttribute('aria-invalid', 'true');
+      input.focus();
+    };
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      msg.textContent = '';
+      input.removeAttribute('aria-invalid');
+      const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+      if (!EMAIL.test(data.email ?? '')) return fail('Enter a valid email address.');
+      // Honeypot: bots fill the hidden field. Pretend it worked, send nothing.
+      if (!data._gotcha) {
+        button.disabled = true;
+        try {
+          delete data._next;
+          const res = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(data),
+          });
+          if (!res.ok) throw new Error(String(res.status));
+        } catch {
+          button.disabled = false;
+          return fail('That did not send. Try again, or email hello@echelisaudio.com.');
+        }
+      }
+      form.hidden = true;
+      done.hidden = false;
+      done.focus();
+      requestAnimationFrame(() => done.classList.add('is-drawn'));
+    });
+  }
+</script>
