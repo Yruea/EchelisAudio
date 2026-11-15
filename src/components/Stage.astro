@@ -25,7 +25,7 @@ import { parts, product } from '../data/site';
       <p class="lead">Two people. One hybrid in-ear monitor. Every step published.</p>
       <p><a class="btn" href="#early-access">Join early access <span class="btn__arrow" aria-hidden="true">→</span></a></p>
     </div>
-    <p class="stage__note label label--s">Concept model. Not the final design.</p>
+    <p class="stage__note label label--s">Concept model<span class="stage__note-more">. Not the final design.</span></p>
 
     <div class="wrap stage__anatomy">
       <div class="stage__anatomy-head">
@@ -77,9 +77,22 @@ import { parts, product } from '../data/site';
   }
   @media (orientation: portrait) {
     .stage {
-      --poster-x: 50%;
-      --poster-y: 80%;
-      --poster-w: 86vw;
+      --poster-x: 46%;
+      --poster-y: 79%;
+      --poster-w: 62vw;
+    }
+    /* phones: copy at the top, model below it, and the note out of the
+       way of the callouts at the top right */
+    :global(html.stage-on) .stage__hero {
+      align-content: start;
+      padding-top: var(--space-8);
+    }
+    :global(html.stage-on) .stage__note {
+      top: var(--space-6);
+      bottom: auto;
+    }
+    :global(html.stage-on) .stage__note-more {
+      display: none;
     }
   }
 
