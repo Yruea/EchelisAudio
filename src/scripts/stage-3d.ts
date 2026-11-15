@@ -157,8 +157,8 @@ export async function initStage3D(stage: HTMLElement, state: StageState) {
     // visible half-width of the view at the model's depth
     const halfW = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z * camera.aspect;
     model.position.x = portrait ? 0 : lerp(halfW * 0.22, halfW * 0.62, heroness);
-    model.position.y = portrait ? lerp(0.5, -1.5, heroness) : 0;
-    const scale = (portrait ? 0.62 : Math.min(1, halfW / 3.4)) * lerp(0.9, 0.95, heroness);
+    model.position.y = portrait ? lerp(0.5, -1.45, heroness) : 0;
+    const scale = (portrait ? lerp(0.62, 0.5, heroness) : Math.min(1, halfW / 3.4)) * lerp(0.9, 0.95, heroness);
     // exploded, shrink so the whole row of parts fits the view width
     const fit = Math.min(scale, (halfW * 2 * 0.86) / EXPLODED_SPAN);
     model.scale.setScalar(lerp(scale, fit, explode));
