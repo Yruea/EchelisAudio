@@ -103,16 +103,18 @@ export function initStage3D(stage: HTMLElement, state: StageState) {
   nozzle.position.set(-0.45, -0.35, -0.72);
   add('nozzle', -1.9, nozzle, mat.metal);
 
-  // 04 drivers: stand-ins for "more than one kind of driver"
+  // 04 drivers: stand-ins for the current target of one dynamic driver, one
+  // balanced armature and one piezo. Sizes and positions are not to scale.
   const drivers = new Group();
   const dd = new Mesh(new CylinderGeometry(0.34, 0.34, 0.16, seg / 2), mat.driver);
   dd.rotation.x = Math.PI / 2;
   dd.position.set(-0.2, 0.05, 0);
   const ba = new Mesh(new BoxGeometry(0.34, 0.2, 0.16), mat.driver);
   ba.position.set(0.4, 0.3, 0);
-  const ba2 = new Mesh(new BoxGeometry(0.22, 0.14, 0.12), mat.driver);
-  ba2.position.set(0.42, -0.28, 0);
-  drivers.add(dd, ba, ba2);
+  const piezo = new Mesh(new CylinderGeometry(0.16, 0.16, 0.04, seg / 2), mat.driver);
+  piezo.rotation.x = Math.PI / 2;
+  piezo.position.set(0.42, -0.28, 0);
+  drivers.add(dd, ba, piezo);
   drivers.position.z = -0.3;
   add('drivers', 0.2, drivers, mat.driver);
 

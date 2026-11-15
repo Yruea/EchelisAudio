@@ -6,11 +6,11 @@ export const site = {
   name: 'Echelis Audio',
   shortName: 'Echelis',
   url: 'https://www.echelisaudio.com',
-  email: 'hello@echelisaudio.com',
+  email: 'echelisaudio@gmail.com',
   founded: 'July 2026',
-  teamSize: 6,
+  teamSize: 2,
   description:
-    'Echelis is six people building one in-ear monitor in the open. The Angostura Uno is in development. Join early access to follow the build.',
+    'Echelis is two people building one in-ear monitor in the open. The Angostura Uno is in development. Join early access to follow the build.',
   formEndpoint: 'https://formspree.io/f/xoedjgob',
 };
 
@@ -69,7 +69,7 @@ export const parts: Part[] = [
     code: 'EA-04',
     name: 'Drivers',
     line: 'Tiny speakers. They turn the signal from your player into sound.',
-    note: 'The Angostura Uno is a hybrid: it uses more than one kind of driver, each handling the part of the range it does best. The exact configuration will be published when it is locked.',
+    note: 'The Angostura Uno is a hybrid. The current target is three drivers per side: one dynamic driver for bass and lower mids, one balanced armature for mids and upper mids, and one piezoelectric driver for treble and air. This is a prototype target and may change.',
   },
   {
     id: 'crossover',
@@ -90,7 +90,7 @@ export interface Spec {
 export const specs: Spec[] = [
   { label: 'Type', value: product.type },
   { label: 'Status', value: product.status },
-  { label: 'Driver configuration', value: null, placeholder: '[[SPEC: driver config]]' },
+  { label: 'Driver configuration', value: '1 dynamic + 1 balanced armature + 1 piezo (current target)' },
   { label: 'Frequency response', value: null, placeholder: '[[SPEC: frequency response]]' },
   { label: 'Impedance', value: null, placeholder: '[[SPEC: impedance]]' },
   { label: 'Sensitivity', value: null, placeholder: '[[SPEC: sensitivity]]' },
@@ -112,7 +112,7 @@ export const beats = [
   },
   {
     title: 'One product.',
-    body: 'Six people, one monitor. Nothing else is competing for our attention.',
+    body: 'Two people, one monitor. Nothing else is competing for our attention.',
   },
   {
     title: 'Unknowns stay visible.',
@@ -120,11 +120,10 @@ export const beats = [
   },
 ];
 
-// [[COPY]] team roster: names and roles to be supplied.
-export const team: { name: string | null; role: string | null }[] = Array.from({ length: 6 }, () => ({
-  name: null,
-  role: null,
-}));
+export const team: { name: string | null; role: string | null }[] = [
+  { name: 'Shane Ollek', role: 'Co-founder' },
+  { name: 'Pranaav Makharia', role: 'Co-founder' },
+];
 
 export const faqs = [
   {
@@ -137,7 +136,7 @@ export const faqs = [
   },
   {
     q: 'What does "hybrid" mean?',
-    a: 'A hybrid uses more than one kind of driver in each earpiece. A crossover splits the music so each driver plays the range it is best at.',
+    a: 'A hybrid uses more than one kind of driver in each earpiece. A crossover splits the music so each driver plays the range it is best at. Our current target is one dynamic driver, one balanced armature and one piezoelectric driver per side.',
   },
   {
     q: 'What do I get from early access?',

@@ -7,9 +7,9 @@
     { "source": "/engineering", "destination": "/angostura-uno", "permanent": true },
     { "source": "/faq", "destination": "/angostura-uno#faq", "permanent": true },
     { "source": "/contact", "destination": "/about#contact", "permanent": true },
-    { "source": "/journal/why-we-tune-by-ear", "destination": "/journal", "permanent": false },
-    { "source": "/journal/the-case-for-detachable-cables", "destination": "/journal", "permanent": false },
-    { "source": "/journal/building-in-public", "destination": "/journal", "permanent": false },
+    { "source": "/journal/why-we-tune-by-ear", "destination": "/journal/002-listen-first-then-measure", "permanent": true },
+    { "source": "/journal/the-case-for-detachable-cables", "destination": "/journal/003-the-case-for-detachable-cables", "permanent": true },
+    { "source": "/journal/building-in-public", "destination": "/journal/004-building-in-the-open", "permanent": true },
     { "source": "/(cart|checkout|signin|account|forgot-password|reset-password|shipping-returns|warranty|terms|accessibility)", "destination": "/", "permanent": false }
   ],
   "headers": [
