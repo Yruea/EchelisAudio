@@ -47,6 +47,13 @@ const ANCHORS: Record<string, { node: string; offset: [number, number, number] }
 // Exploded, the parts span about 72 mm, centred about 13 mm behind the origin.
 const EXPLODED_SPAN = 72 * MM;
 const EXPLODED_CENTRE = -13 * MM;
+// On portrait screens the row of parts runs top to bottom instead of left to
+// right, so each part can be larger. The model is tipped back by this much
+// (radians), leaving the faceplate at the top, facing slightly toward the
+// viewer; the row may use this fraction of the view height.
+const PORTRAIT_TILT = -0.95;
+const PORTRAIT_SPIN = -0.5;
+const PORTRAIT_HEIGHT_SHARE = 0.5;
 
 const css = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -157,19 +164,34 @@ export async function initStage3D(stage: HTMLElement, state: StageState) {
     // visible half-width of the view at the model's depth
     const halfW = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z * camera.aspect;
     model.position.x = portrait ? 0 : lerp(halfW * 0.22, halfW * 0.62, heroness);
-    model.position.y = portrait ? lerp(0.5, -1.45, heroness) : 0;
+    model.position.y = portrait ? lerp(0.05, -1.45, heroness) : 0;
     const scale = (portrait ? lerp(0.62, 0.5, heroness) : Math.min(1, halfW / 3.4)) * lerp(0.9, 0.95, heroness);
-    // exploded, shrink so the whole row of parts fits the view width
-    const fit = Math.min(scale, (halfW * 2 * 0.86) / EXPLODED_SPAN);
+    // exploded, shrink so the whole row of parts fits: across the width on
+    // landscape, down the height on portrait
+    const halfH = halfW / camera.aspect;
+    const room = portrait
+      ? (halfH * 2 * PORTRAIT_HEIGHT_SHARE) / (EXPLODED_SPAN * Math.sin(-PORTRAIT_TILT))
+      : (halfW * 2 * 0.86) / EXPLODED_SPAN;
+    const fit = Math.min(scale, room);
     model.scale.setScalar(lerp(scale, fit, explode));
     inner.position.z = -EXPLODED_CENTRE * explode;
 
-    // rotation: one full turn across the hero, a slow idle drift, and a
-    // side-on view when exploded so the parts read along one axis
-    const side = -1.05;
+    // rotation: one full turn across the hero and a slow idle drift. Exploded,
+    // landscape turns side-on so the parts read left to right; portrait tips
+    // the model back so they read top to bottom, and spins it about its own
+    // axis for a three-quarter view.
     const turn = Math.min(1, p / 0.1) * Math.PI * 2;
-    model.rotation.y = lerp(0.65 + Math.sin(t * 0.4) * 0.12 + turn, side + Math.sin(t * 0.3) * 0.04, explode);
-    model.rotation.x = lerp(0.25, 0.18, explode);
+    const heroYaw = 0.65 + Math.sin(t * 0.4) * 0.12 + turn;
+    const drift = Math.sin(t * 0.3) * 0.04;
+    if (portrait) {
+      model.rotation.y = lerp(heroYaw, Math.PI * 2 + drift, explode);
+      model.rotation.x = lerp(0.25, PORTRAIT_TILT, explode);
+      model.rotation.z = PORTRAIT_SPIN * explode;
+    } else {
+      model.rotation.y = lerp(heroYaw, -1.05 + drift, explode);
+      model.rotation.x = lerp(0.25, 0.18, explode);
+      model.rotation.z = 0;
+    }
 
     for (const part of parts) {
       part.node.position.y = part.rest + part.offset * explode;
