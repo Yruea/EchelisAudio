@@ -94,7 +94,7 @@ export const specs: Spec[] = [
   { label: 'Frequency response', value: null, placeholder: '[[SPEC: frequency response]]' },
   { label: 'Impedance', value: null, placeholder: '[[SPEC: impedance]]' },
   { label: 'Sensitivity', value: null, placeholder: '[[SPEC: sensitivity]]' },
-  { label: 'Cable connector', value: null, placeholder: '[[SPEC: cable connector]]' },
+  { label: 'Cable connector', value: '0.78 mm 2-pin, detachable' },
   { label: 'Shell material', value: null, placeholder: '[[SPEC: shell material]]' },
   { label: 'Faceplate finish', value: null, placeholder: '[[SPEC: faceplate finish]]' },
   { label: 'Nozzle material', value: null, placeholder: '[[SPEC: nozzle material]]' },

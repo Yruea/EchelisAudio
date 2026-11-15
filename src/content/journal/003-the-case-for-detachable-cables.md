@@ -21,8 +21,8 @@ A removable cable needs a connector on each earpiece. That adds a little size, a
 ## Decided
 
 - The Angostura Uno is being designed around a detachable cable.
+- The connector is 0.78 mm 2-pin: common, inexpensive to replace, and easy to find cables for.
 
 ## Open
 
-- The connector. There are a few common types, each with its own strengths, and we have not picked one. The spec sheet says "to be confirmed" until we do.
 - The cable itself: material, length and whether one is included.

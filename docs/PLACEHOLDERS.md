@@ -7,7 +7,6 @@ Everything below is unknown or draft. Nothing here was invented as fact.
 - `[[SPEC: frequency response]]`
 - `[[SPEC: impedance]]`
 - `[[SPEC: sensitivity]]`
-- `[[SPEC: cable connector]]`
 - `[[SPEC: shell material]]`
 - `[[SPEC: faceplate finish]]`
 - `[[SPEC: nozzle material]]`

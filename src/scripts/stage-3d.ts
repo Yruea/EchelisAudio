@@ -37,6 +37,13 @@ const PARTS: Record<string, { offset: number; callout: string }> = {
   drivers: { offset: 2, callout: 'drivers' },
   crossover: { offset: 11.5, callout: 'crossover' },
 };
+// Where a callout's dot sits, when the middle of the part is a poor place
+// for it: a named child node plus an offset in the part's own space (mm).
+// The faceplate dot sits on the black band, left of the wordmark, so it is
+// not lost against the amber panel.
+const ANCHORS: Record<string, { node: string; offset: [number, number, number] }> = {
+  faceplate: { node: 'wordmark', offset: [-7.6, 0, 0] },
+};
 // Exploded, the parts span about 72 mm, centred about 13 mm behind the origin.
 const EXPLODED_SPAN = 72 * MM;
 const EXPLODED_CENTRE = -13 * MM;
@@ -111,7 +118,10 @@ export async function initStage3D(stage: HTMLElement, state: StageState) {
       }
       child.material = clones.get(source)!;
     });
-    const anchor = node.worldToLocal(new Box3().setFromObject(node).getCenter(new Vector3()));
+    const override = ANCHORS[name];
+    const anchorNode = (override && node.getObjectByName(override.node)) || node;
+    const anchor = node.worldToLocal(new Box3().setFromObject(anchorNode).getCenter(new Vector3()));
+    if (override && anchorNode !== node) anchor.add(new Vector3(...override.offset));
     // The model's explode axis (Blender +Z, through the faceplate) is each
     // node's local +Y after the glTF exporter's Y-up conversion.
     parts.push({ node, rest: node.position.y, offset, callout, anchor, materials: [...clones.values()] });
