@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Check, Loader2, ArrowRight } from 'lucide-react';
 import PageHero from '@/components/PageHero';
 import Reveal from '@/components/Reveal';
-import { base44 } from '@/api/base44Client';
+import { submitForm } from '@/lib/forms';
 
 const reasons = [
   'Product feedback',
@@ -13,7 +13,7 @@ const reasons = [
 ];
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', reason: reasons[0], message: '' });
+  const [form, setForm] = useState({ name: '', email: '', reason: reasons[0], message: '', _gotcha: '' });
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
 
@@ -32,12 +32,12 @@ export default function Contact() {
     }
     setStatus('loading');
     try {
-      await base44.entities.ContactMessage.create(form);
+      await submitForm('contact', form);
       setStatus('success');
-      setForm({ name: '', email: '', reason: reasons[0], message: '' });
+      setForm({ name: '', email: '', reason: reasons[0], message: '', _gotcha: '' });
     } catch {
       setStatus('error');
-      setError('Something went wrong. Please try again.');
+      setError('We could not send your message. Please try again, or email hello@echelisaudio.com.');
     }
   };
 
@@ -93,6 +93,16 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={submit} className="rounded-sm border border-border bg-card p-6 md:p-8 space-y-5">
+                <input
+                  type="text"
+                  name="_gotcha"
+                  value={form._gotcha}
+                  onChange={onChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <label className="font-mono-tech text-xs uppercase tracking-widest text-muted-foreground">Name</label>
