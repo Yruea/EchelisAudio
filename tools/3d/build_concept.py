@@ -126,8 +126,9 @@ def align_z_to(ob, direction):
 # Faceplate outline for a right earpiece, seen from outside (x toward the
 # back of the ear, y up), in mm. A rounded pick about 24 x 18.5 mm with its
 # peak near the cable socket: the proportions of a resin universal monitor.
-OUTLINE = [(12.2, 0.5), (11.0, 5.0), (6.8, 8.2), (1.0, 9.2), (-4.5, 9.6), (-7.8, 8.8), (-10.6, 5.0),
-           (-11.9, -1.5), (-10.8, -6.6), (-6.0, -8.7), (1.5, -8.4), (8.0, -7.0), (11.5, -3.6)]
+OUTLINE = [(12.0, 0.0), (11.2, 4.8), (7.5, 8.0), (2.0, 9.0), (-3.6, 10.1), (-5.4, 10.6), (-6.8, 10.2), (-8.8, 7.6),
+           (-10.4, 3.4), (-11.6, -1.2), (-12.4, -6.4), (-11.7, -8.2), (-7.2, -8.3), (-2.4, -7.0), (3.5, -7.6), (8.6, -7.4),
+           (11.4, -4.2)]
 
 
 def outline_pt(t, scale=1.0):
@@ -182,7 +183,7 @@ def build():
         # gloss black body and faceplate frame; a matte metal panel set into the plate
         "resin": material("resin", hexrgb("#1b1b1a"), 0.0, 0.12, coat=1.0),
         "plate": material("plate", hexrgb("#141413"), 0.0, 0.14, coat=1.0),
-        "panel": material("panel", hexrgb("#9a978f"), 1.0, 0.46),
+        "panel": material("panel", hexrgb("#ffb000"), 1.0, 0.44),
         "mark": material("mark", hexrgb("#eceae4"), 0.0, 0.7),
         "metal": material("metal", hexrgb("#c9c6bd"), 1.0, 0.28),
         "steel": material("steel", hexrgb("#a9a7a0"), 1.0, 0.42),
@@ -234,7 +235,7 @@ def build():
         return ob
 
     # connector: a flush two-pin socket set into the straight wall
-    t_sock = math.radians(92)
+    t_sock = math.radians(74)
     bm = bmesh.new()
     bmesh.ops.create_cube(bm, size=1)
     bmesh.ops.scale(bm, vec=(4.8, 1.9, 1.3), verts=bm.verts)
@@ -256,7 +257,7 @@ def build():
     bm = bmesh.new()
     bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=0.38, radius2=0.38, depth=0.3)
     bmesh.ops.translate(bm, vec=(0, 0, -0.1), verts=bm.verts)
-    vent = on_wall("vent", bm, M["steel"], math.radians(42), -BAND / 2, smooth=True)
+    vent = on_wall("vent", bm, M["steel"], math.radians(30), -BAND / 2, smooth=True)
     vent.parent = shell
 
     # ------------------------------------------------ 02 faceplate
@@ -323,7 +324,7 @@ def build():
         width = max(mark.dimensions.x, mark.dimensions.y)
         k = 8.0 / width  # about 8 mm wide on the concept plate
         mark.scale = (k, k, k)
-        mark.location = (4.3, -5.5, 1.012)
+        mark.location = (4.6, -5.2, 1.012)
         mark.rotation_euler = (0, 0, math.radians(9))
         mark.data.materials.clear()
         mark.data.materials.append(M["mark"])
