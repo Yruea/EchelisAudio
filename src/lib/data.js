@@ -4,10 +4,10 @@ const db = globalThis.__B44_DB__ || { auth:{ isAuthenticated: async()=>false, me
 // Imagery is concept render — final product is still in development.
 
 export const IMAGES = {
-  heroIem: 'https://media.db.com/images/public/6aab6d05f219adb22d0d5108/5157af7b7_generated_image.png',
-  productMain: 'https://media.db.com/images/public/6aab6d05f219adb22d0d5108/09a6c2f33_generated_image.png',
-  engineeringMacro: 'https://media.db.com/images/public/6aab6d05f219adb22d0d5108/7c1115a63_generated_image.png',
-  materials: 'https://media.db.com/images/public/6aab6d05f219adb22d0d5108/10f085cb1_generated_image.png',
+  heroIem: 'https://media.base44.com/images/public/6aab6d05f219adb22d0d5108/5157af7b7_generated_image.png',
+  productMain: 'https://media.base44.com/images/public/6aab6d05f219adb22d0d5108/09a6c2f33_generated_image.png',
+  engineeringMacro: 'https://media.base44.com/images/public/6aab6d05f219adb22d0d5108/7c1115a63_generated_image.png',
+  materials: 'https://media.base44.com/images/public/6aab6d05f219adb22d0d5108/10f085cb1_generated_image.png',
 };
 
 export const categories = [
