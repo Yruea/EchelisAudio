@@ -55,8 +55,7 @@ export default function ProductDetail() {
             {product.category} · {product.statusLabel}
           </p>
           <h1
-            style={{ fontFamily: "'Michroma', sans-serif" }}
-            className="mt-6 text-3xl uppercase tracking-[0.18em] text-foreground sm:text-5xl md:text-6xl"
+            className="mt-6 font-display text-3xl uppercase tracking-[0.18em] text-foreground sm:text-5xl md:text-6xl"
           >
             {product.name}
           </h1>
