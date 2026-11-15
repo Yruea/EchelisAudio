@@ -30,7 +30,7 @@ export default function WaitlistForm({
       setEmail('');
     } catch (err) {
       setStatus('error');
-      setError('We could not save your signup. Please try again, or email hello@echelisaudio.com.');
+      setError('We could not save your signup. Please try again, or email echelisaudio@gmail.com.');
     }
   };
 

@@ -37,7 +37,7 @@ export default function Contact() {
       setForm({ name: '', email: '', reason: reasons[0], message: '', _gotcha: '' });
     } catch {
       setStatus('error');
-      setError('We could not send your message. Please try again, or email hello@echelisaudio.com.');
+      setError('We could not send your message. Please try again, or email echelisaudio@gmail.com.');
     }
   };
 
@@ -55,8 +55,8 @@ export default function Contact() {
             <div className="space-y-8">
               <div>
                 <p className="font-mono-tech text-xs uppercase tracking-widest text-muted-foreground">Email</p>
-                <a href="mailto:hello@echelisaudio.com" className="mt-2 block text-lg text-foreground hover:text-primary">
-                  hello@echelisaudio.com
+                <a href="mailto:echelisaudio@gmail.com" className="mt-2 block text-lg text-foreground hover:text-primary">
+                  echelisaudio@gmail.com
                 </a>
               </div>
               <div>
