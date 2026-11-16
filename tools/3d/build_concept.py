@@ -1,4 +1,4 @@
-"""Build the Angostura Uno CONCEPT model and export it for the web.
+"""Build the Angosta One CONCEPT model and export it for the web.
 
 This is a concept, not the product: proportions are typical of a universal
 in-ear monitor and are not specifications. It is replaced by an export from
@@ -198,7 +198,7 @@ def build():
         "tip": material("tip", hexrgb("#3a3a37"), 0.0, 0.5),
     }
 
-    root = empty("angostura_uno_concept")
+    root = empty("angosta_one_concept")
     # glTF is Y-up: Blender (x, y, z) -> glTF (x, z, -y). Rotating the root by
     # +90 deg about X sends model +Z to Blender -Y, which lands on glTF +Z.
     root.rotation_euler = (math.radians(90), 0, 0)
@@ -516,7 +516,7 @@ def render(scene, root, path, explode, poster=False):
 
 try:
     root, scene = build()
-    glb = os.path.join(OUT, "angostura-uno-concept.raw.glb")
+    glb = os.path.join(OUT, "angosta-one-concept.raw.glb")
     bpy.ops.export_scene.gltf(filepath=glb, export_format="GLB", export_apply=True, export_yup=True, export_cameras=False, export_lights=False, export_materials="EXPORT")
     log("exported", glb, os.path.getsize(glb), "bytes")
     if "--no-render" not in sys.argv:

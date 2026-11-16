@@ -16,7 +16,7 @@ npm run preview  # serve dist/
 
 | Path | What |
 |---|---|
-| `src/pages/` | Routes: `/`, `/angostura-uno`, `/journal`, `/about`, `/privacy`, `/thanks`, 404 |
+| `src/pages/` | Routes: `/`, `/angosta-one`, `/journal`, `/about`, `/privacy`, `/thanks`, 404 |
 | `src/data/site.ts` | Product facts, specs, callouts, FAQ, team |
 | `src/content/journal/` | Journal entries in Markdown |
 | `src/styles/global.css` | Design tokens and base styles |

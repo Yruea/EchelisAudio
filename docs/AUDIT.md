@@ -50,7 +50,7 @@ If you saw these tags somewhere else (view-source in a browser, a validator, Sea
 
 | Item | State |
 |---|---|
-| Title / description | Present, but identical on every route. No per-page titles. Still says "Angosta One". |
+| Title / description | Present, but identical on every route. No per-page titles. |
 | Canonical | Missing |
 | Open Graph / Twitter cards | Missing entirely (0 tags). Shared links show no image or summary. |
 | Favicon set | Present: `favicon.ico` (48), PNG 32/48/512, apple-touch-icon, `manifest.json`. To be replaced by the new wordmark. |
@@ -98,7 +98,7 @@ Single runs vary by a few points; treat these as a baseline, not exact figures.
 |---|---|---|
 | `/` | Landing, signup | Keep, rebuild |
 | `/shop` | Catalog of one product, five empty categories | Remove until there is a catalog |
-| `/product/angosta-one-founders-edition` | Product page | Becomes `/angostura-uno` |
+| `/product/angosta-one-founders-edition` | Product page | Becomes `/angosta-one` |
 | `/engineering` ("How it works") | Philosophy and exploded view | Fold into home and product page |
 | `/journal`, `/journal/:slug` | Three posts, hard-coded in `data.js` | Keep; move to files (Markdown) |
 | `/about` | Team and story | Keep |
@@ -111,10 +111,10 @@ Single runs vary by a few points; treat these as a baseline, not exact figures.
 
 Content concerns:
 - **Invented specifics.** The product page shows "84% reserved" and "Detachable · MMCX". The FAQ and journal make tuning and design claims. None are confirmed. All of this needs review against the "never invent specs" rule and replacement with `[[SPEC]]` placeholders.
-- **Naming.** Site says "Angosta One" and "EchelisAudio"; the brief sets "Angostura Uno" and "Echelis" / "Echelis Audio".
+- **Naming.** Site says "EchelisAudio"; the brief sets "Echelis" / "Echelis Audio" for running text. The product name is Angosta One.
 - **Imagery.** The four renders are AI-generated concept images, labelled "concept render". They will not match the real product.
 
-Your proposed sitemap (`/`, `/angostura-uno`, `/journal`, `/about`, `/thanks`) matches what the audit supports. I would add `/privacy` and a real 404.
+Your proposed sitemap (`/`, `/angosta-one`, `/journal`, `/about`, `/thanks`) matches what the audit supports. I would add `/privacy` and a real 404.
 
 ## 7. Early-access flow
 

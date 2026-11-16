@@ -14,7 +14,7 @@ Branch `redesign/instrument`. Not merged. The live site is unchanged.
 | Route | Content |
 |---|---|
 | `/` | Hero → pinned exploded-view sequence → spec sheet → why Echelis → team → early access |
-| `/angostura-uno` | Spec grid, part-by-part design notes, FAQ, early access |
+| `/angosta-one` | Spec grid, part-by-part design notes, FAQ, early access |
 | `/journal`, `/journal/[slug]` | Lab-note format, Markdown content collection, one proposed entry |
 | `/about` | Mission, team roster (placeholders), contact, early access |
 | `/privacy`, `/thanks`, 404 | Plain pages; 404 returns a real 404 status |
@@ -60,7 +60,7 @@ Everything outside the 3D chunk: 13 kB of CSS (inlined) and under 4 kB of JavaSc
 |---|---|---|---|---|---|---|---|
 | Home, mobile | 100 | 100 | 96 | 100 | 0.6 s | 0 | 10 ms |
 | Home, desktop | 100 | 100 | 96 | 100 | 0.2 s | 0 | 0 ms |
-| Angostura Uno, mobile | 99 | 100 | 96 | 100 | 0.6 s | 0 | 140 ms |
+| Angosta One, mobile | 99 | 100 | 96 | 100 | 0.6 s | 0 | 140 ms |
 | Journal, mobile | 100 | 100 | 96 | 100 | 0.7 s | 0 | 0 ms |
 | About, mobile | 100 | 100 | 96 | 100 | 0.6 s | 0 | 10 ms |
 
