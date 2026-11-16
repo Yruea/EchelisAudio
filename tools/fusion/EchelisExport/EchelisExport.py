@@ -1,4 +1,4 @@
-"""Fusion script: export the Angostura Uno design for the website.
+"""Fusion script: export the Angosta One design for the website.
 
 UNTESTED: written against the documented Fusion API before any CAD existed.
 Run it once on a simple test design and report what happens.
@@ -7,7 +7,7 @@ Install: Fusion > Utilities > Scripts and Add-Ins > Scripts > "+" > pick this
 folder (EchelisExport). Run it with the design open.
 
 It writes, into a folder you choose:
-  angostura-uno.step      the whole assembly (precise master)
+  angosta-one.step      the whole assembly (precise master)
   <part>.stl              one high-refinement mesh per named component
   export-report.txt       which expected parts were found or missing
 
@@ -32,7 +32,7 @@ def run(context):
         ui = app.userInterface
         design = adsk.fusion.Design.cast(app.activeProduct)
         if not design:
-            ui.messageBox("Open the Angostura Uno design first.")
+            ui.messageBox("Open the Angosta One design first.")
             return
 
         dialog = ui.createFolderDialog()
@@ -45,9 +45,9 @@ def run(context):
         root = design.rootComponent
         lines = []
 
-        step = manager.createSTEPExportOptions(os.path.join(out, "angostura-uno.step"), root)
+        step = manager.createSTEPExportOptions(os.path.join(out, "angosta-one.step"), root)
         manager.execute(step)
-        lines.append("STEP: angostura-uno.step")
+        lines.append("STEP: angosta-one.step")
 
         # first occurrence of each component, matched by lower-cased name
         found = {}

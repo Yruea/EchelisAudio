@@ -145,8 +145,8 @@ Echelis's own contribution: the **dark inversion**, the **frequency line** as a 
 
 | # | Section | Content | Notes |
 |---|---|---|---|
-| 0 | **Header** | Wordmark top-left. Nav: Angostura Uno, Journal, About. CTA: "Join early access". | Sticky, hairline bottom rule. Mobile: wordmark and CTA only; nav in a sheet. |
-| 1 | **Hero** | Mono label `EA-01 / ANGOSTURA UNO — IN DEVELOPMENT`. Display headline. One CTA. 3D model right/behind, ruled grid visible. | A static poster image renders first (this is the LCP element, eager-loaded). The 3D canvas loads lazily and replaces it with no layout shift. |
+| 0 | **Header** | Wordmark top-left. Nav: Angosta One, Journal, About. CTA: "Join early access". | Sticky, hairline bottom rule. Mobile: wordmark and CTA only; nav in a sheet. |
+| 1 | **Hero** | Mono label `EA-01 / ANGOSTA ONE — IN DEVELOPMENT`. Display headline. One CTA. 3D model right/behind, ruled grid visible. | A static poster image renders first (this is the LCP element, eager-loaded). The 3D canvas loads lazily and replaces it with no layout shift. |
 | 2 | **Scroll sequence** | Model rotates, separates into the exploded view, five numbered callouts, reassembles. | Pinned section. One callout readable at a time. Static diagram fallback for reduced motion, no WebGL, and no JS. |
 | 3 | **Spec sheet** | `02 — SPECIFICATION`. Two-column ruled grid of key/value rows. | All values `[[SPEC]]` until confirmed; shown in the UI as "to be measured". |
 | 4 | **Why Echelis** | `03 — WHY`. Three short beats, each a mono index, a 3–5 word headline, one sentence. | No icons. Rules between beats. |
@@ -218,7 +218,7 @@ Copy:
 1. **Wordmark:** A, B or C? Any changes to tracking or the E?
 2. **Accent:** orange, amber or phosphor?
 3. **Type:** pairing 1, 2 or 3?
-4. **Callouts:** the crossover line assumes more than one driver type. You described the Angostura Uno as a hybrid, so I kept it. Confirm that is public.
+4. **Callouts:** the crossover line assumes more than one driver type. You described the Angosta One as a hybrid, so I kept it. Confirm that is public.
 5. **Faceplate marking:** which process will print or engrave the wordmark? That decides whether 5 mm is realistic.
 6. **Headline:** pick one, or give me a direction to write more.
 

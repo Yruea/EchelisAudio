@@ -2,7 +2,7 @@
 
 Status: **for approval. No modelling or sourcing has started.**
 
-The goal is to replace the placeholder primitives in the home page sequence with a real model of the Angostura Uno, exported from your Fusion CAD, within a 2–3 MB budget.
+The goal is to replace the placeholder primitives in the home page sequence with a real model of the Angosta One, exported from your Fusion CAD, within a 2–3 MB budget.
 
 ## 1. What the web model has to do
 
@@ -139,7 +139,7 @@ Done means:
 No CAD exists yet, so the site currently uses a **concept model**, labelled as such on the page.
 
 - **Source:** `tools/3d/build_concept.py`, run headless in Blender 4.5 LTS. It builds all eleven parts, exports the GLB and renders previews and the hero poster.
-- **Output:** `public/models/angostura-uno-concept.glb`, about 19,000 triangles, 119 kB with Meshopt compression (`npx @gltf-transform/cli meshopt in.glb out.glb`).
+- **Output:** `public/models/angosta-one-concept.glb`, about 19,000 triangles, 119 kB with Meshopt compression (`npx @gltf-transform/cli meshopt in.glb out.glb`).
 - **Poster:** `public/img/hero-poster.avif` (8 kB) and `.webp` (14 kB), rendered from the same model.
 - **Proportions** are typical of a universal in-ear monitor, with the 10 mm dynamic driver and roughly 6 mm nozzle from `IEM_Basic_List.md`. They are not specifications.
 - **Previews:** `docs/phase3/`.

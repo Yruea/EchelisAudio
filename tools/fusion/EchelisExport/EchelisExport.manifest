@@ -3,7 +3,7 @@
   "type": "script",
   "author": "Echelis Audio",
   "description": {
-    "": "Export the Angostura Uno design (STEP plus one STL per named part) for the website."
+    "": "Export the Angosta One design (STEP plus one STL per named part) for the website."
   },
   "supportedOS": "windows|mac",
   "editEnabled": true

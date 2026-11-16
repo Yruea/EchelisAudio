@@ -10,19 +10,19 @@ export const site = {
   founded: 'July 2026',
   teamSize: 2,
   description:
-    'Echelis is two people building one in-ear monitor in the open. The Angostura Uno is in development. Join early access to follow the build.',
+    'Echelis is two people building one in-ear monitor in the open. The Angosta One is in development. Join early access to follow the build.',
   formEndpoint: 'https://formspree.io/f/xoedjgob',
 };
 
 export const product = {
-  name: 'Angostura Uno',
-  slug: 'angostura-uno',
+  name: 'Angosta One',
+  slug: 'angosta-one',
   status: 'In development',
   type: 'Hybrid in-ear monitor',
 };
 
 export const nav = [
-  { href: '/angostura-uno', label: 'Angostura Uno' },
+  { href: '/angosta-one', label: 'Angosta One' },
   { href: '/journal', label: 'Journal' },
   { href: '/about', label: 'About' },
 ];
@@ -69,7 +69,7 @@ export const parts: Part[] = [
     code: 'EA-04',
     name: 'Drivers',
     line: 'Tiny speakers. They turn the signal from your player into sound.',
-    note: 'The Angostura Uno is a hybrid. The current target is three drivers per side: one dynamic driver for bass and lower mids, one balanced armature for mids and upper mids, and one piezoelectric driver for treble and air. This is a prototype target and may change.',
+    note: 'The Angosta One is a hybrid. The current target is three drivers per side: one dynamic driver for bass and lower mids, one balanced armature for mids and upper mids, and one piezoelectric driver for treble and air. This is a prototype target and may change.',
   },
   {
     id: 'crossover',
@@ -127,7 +127,7 @@ export const team: { name: string | null; role: string | null }[] = [
 
 export const faqs = [
   {
-    q: 'Can I buy the Angostura Uno?',
+    q: 'Can I buy the Angosta One?',
     a: 'Not yet. It is in development. There is no price and no ship date, and we will not take money until both exist.',
   },
   {
